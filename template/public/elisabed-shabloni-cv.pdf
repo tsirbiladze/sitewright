@@ -1,0 +1,51 @@
+%PDF-1.4
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Kids [3 0 R] /Count 1 >>
+endobj
+3 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Resources << /Font << /F1 4 0 R /F2 5 0 R >> >> /Contents 6 0 R >>
+endobj
+4 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>
+endobj
+5 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold >>
+endobj
+6 0 obj
+<< /Length 935 >>
+stream
+BT /F2 20 Tf 56 761 Td (Elisabed Shabloni) Tj ET
+BT /F1 11 Tf 56 741 Td (Front-end developer, Kutaisi, Georgia. A fictional person: the demo of a site template.) Tj ET
+BT /F1 11 Tf 56 721 Td (Email: elisabed@example.com) Tj ET
+BT /F2 13 Tf 56 691 Td (Experience) Tj ET
+BT /F1 11 Tf 56 671 Td (2023 - now   Freelance front-end developer, Kutaisi, and remote) Tj ET
+BT /F1 11 Tf 56 651 Td (2020 - 2023  Front-end developer, Example Studio, Tbilisi \(a fictional company\)) Tj ET
+BT /F2 13 Tf 56 621 Td (Open source) Tj ET
+BT /F1 11 Tf 56 601 Td (Oct 2026  menu-cards: a cafe menu from a spreadsheet, printed and online) Tj ET
+BT /F1 11 Tf 56 581 Td (Mar 2026  opening-hours: tells visitors whether a shop is open now) Tj ET
+BT /F2 13 Tf 56 551 Td (Stack) Tj ET
+BT /F1 11 Tf 56 531 Td (TypeScript, React, Next.js, HTML, CSS; Figma; Git, Node.js, Playwright; Vercel) Tj ET
+BT /F1 9 Tf 56 513 Td (Everything on this page is invented.) Tj ET
+endstream
+endobj
+7 0 obj
+<< /Title (Elisabed Shabloni - CV, fictional) /Author (sitewright demo) >>
+endobj
+xref
+0 8
+0000000000 65535 f 
+0000000009 00000 n 
+0000000058 00000 n 
+0000000115 00000 n 
+0000000251 00000 n 
+0000000321 00000 n 
+0000000396 00000 n 
+0000001382 00000 n 
+trailer
+<< /Size 8 /Root 1 0 R /Info 7 0 R >>
+startxref
+1472
+%%EOF

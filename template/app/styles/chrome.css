@@ -1,0 +1,292 @@
+/* Site header, page header on the wine field, footer, placeholders. */
+
+/* ───────────── Header (on wine) ───────────── */
+
+.site-header { background: var(--saperavi); color: var(--foam); }
+
+.bar {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-areas: "mark lang" "nav nav";
+  align-items: center;
+  column-gap: 16px;
+  padding-block: 6px 2px;
+}
+
+.wordmark {
+  grid-area: mark;
+  display: inline-flex; align-items: center; min-height: 44px;
+  justify-self: start;
+  color: var(--foam);
+  font-size: 19px; font-stretch: 75%; font-weight: 700;
+  text-decoration: none;
+}
+.wordmark:lang(ka) { font-stretch: 80%; font-size: 18px; }
+
+.nav { grid-area: nav; }
+.nav ul {
+  display: flex; flex-wrap: wrap; gap: 0 22px;
+  margin: 0; padding: 0; list-style: none;
+}
+.nav a,
+.lang {
+  display: inline-flex; align-items: center;
+  min-height: 44px; min-width: 44px;
+  color: var(--foam-soft);
+  font-size: 16px;
+  text-decoration: none;
+}
+.nav a:hover,
+.lang:hover { color: var(--foam); text-decoration: underline; }
+.nav a[aria-current] {
+  color: var(--foam);
+  text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 7px;
+}
+.lang { grid-area: lang; justify-content: flex-end; color: var(--foam); }
+
+@media (max-width: 359px) {
+  .nav ul { gap: 0 14px; }
+  .nav a { font-size: 15px; }
+}
+
+@media (min-width: 760px) {
+  .bar {
+    grid-template-columns: minmax(0, 1fr) auto auto;
+    grid-template-areas: "mark nav lang";
+    column-gap: 36px;
+    padding-block: 14px;
+  }
+  .nav ul { gap: 0 32px; }
+  .wordmark { font-size: 20px; }
+  /* The homes: the name stands right under the bar at full size, and the wordmark would link to the
+     page you are on, so it is not drawn. On phones it stays: its row also holds the language link,
+     and the Georgian navigation needs a row to itself. */
+  .site-header--masthead .wordmark { display: none; }
+  /* The language link says „ქართულად“ where the page has a Georgian twin and „ქართული“ where it
+     doesn't. It keeps the longer label's width, so the navigation stays where it is from page to page. */
+  .site-header .lang:lang(ka) { min-width: 6em; }
+}
+
+/* ───────────── Page header (on wine) ───────────── */
+
+.page-head {
+  background: var(--saperavi);
+  color: var(--foam);
+  padding-top: 12px;
+  padding-bottom: clamp(40px, 5vw, 64px);
+}
+/* the install box straddles the bottom edge */
+.page-head--install { padding-bottom: calc(var(--overlap) + 36px); }
+.page-head a { color: var(--foam); }
+
+.crumbs ol {
+  display: flex; flex-wrap: wrap; gap: 0 0.5em;
+  margin: 0; padding: 0; list-style: none;
+  color: var(--foam-soft); font-size: 15px;
+}
+.crumbs li { display: inline-flex; align-items: center; min-height: 44px; }
+.crumbs li + li::before { content: "/" / ""; margin-right: 0.5em; }
+.crumbs a { position: relative; color: var(--foam-soft); display: inline-flex; align-items: center; min-height: 44px; }
+/* a 44 px target without widening the word's box, so the slash stays evenly spaced */
+.crumbs a::after { content: ""; position: absolute; inset: 0 auto 0 0; width: max(100%, 44px); }
+.crumbs a:hover { color: var(--foam); }
+
+.title {
+  margin: 8px 0 0;
+  max-width: 12em;
+  font-size: clamp(46px, 7.4vw, 96px);
+  font-stretch: 62%; font-weight: 800;
+  line-height: 0.95;
+  letter-spacing: var(--track-display);
+}
+.title:lang(ka) { font-size: clamp(40px, 6.4vw, 84px); line-height: 1.12; max-width: 14em; }
+
+.summary {
+  margin: 14px 0 0;
+  max-width: 33em;
+  font-size: clamp(18px, 1.05rem + 0.5vw, 23px);
+  line-height: 1.45;
+}
+.summary:lang(ka) { line-height: 1.6; max-width: 36em; text-wrap: pretty; }
+
+.meta {
+  display: flex; flex-wrap: wrap; gap: 10px 26px;
+  margin: 18px 0 0;
+}
+.meta div { display: flex; flex-direction: column; }
+.meta dt { color: var(--foam-soft); font-size: 13.5px; line-height: 1.4; }
+.meta dd { margin: 0; font-size: 16px; font-weight: 550; line-height: 1.4; }
+
+@media (min-width: 760px) {
+  .summary { margin-top: 20px; }
+  .meta { gap: 14px 36px; margin-top: 26px; }
+  .meta dt { font-size: 14px; }
+  .meta dd { font-size: 17px; }
+}
+
+/* Skill page: five facts. Below 1080 px they are a grid of three and two, so no fact is left alone
+   on a second row. */
+@media (max-width: 1079px) {
+  .page-head--install .meta { display: grid; grid-template-columns: repeat(3, auto); justify-content: start; }
+}
+/* Phones: Georgian facts are long („სავაჭრო დოკუმენტები“, „ბოლო განახლება“), so they take two columns;
+   English ones do below 360 px. */
+@media (max-width: 599px) {
+  .page-head--install .meta:lang(ka) { grid-template-columns: repeat(2, auto); }
+}
+@media (max-width: 359px) {
+  .page-head--install .meta { grid-template-columns: repeat(2, auto); }
+}
+/* From 1080 px the head takes the article's two columns (48rem + 15rem, 56 px apart). Title and
+   summary stay on the left; the facts move to the right as ruled rows, like the facts column on the
+   skills index, over the table of contents that follows below the horizon. The field is one strip
+   shorter, so the article starts higher. */
+@media (min-width: 1080px) {
+  .page-head--install > .wrap {
+    display: grid;
+    grid-template-columns: minmax(0, 48rem) minmax(15rem, 1fr);
+    column-gap: 56px;
+  }
+  .page-head--install > .wrap > * { grid-column: 1; }
+  /* The facts' column runs to the right margin, like the side column on the other pages, and spans
+     the breadcrumb's row too, so where it is taller than the title and summary it rises beside the
+     breadcrumb instead of stretching their rows. */
+  .page-head--install .meta {
+    grid-column: 2; grid-row: 1 / span 3; align-self: end;
+    display: grid; grid-template-columns: 6.25rem minmax(0, 1fr); gap: 0;
+    margin: 0 0 4px;
+    border-top: 1px solid var(--tab-line);
+  }
+  .page-head--install .meta div {
+    display: grid; grid-template-columns: subgrid; grid-column: 1 / -1; align-items: baseline;
+    padding-block: 7px;
+    border-bottom: 1px solid var(--tab-line);
+  }
+  .page-head--install .meta dt { font-size: 15px; line-height: 1.5; }
+  .page-head--install .meta dd { font-size: 16px; line-height: 1.5; }
+  /* Georgian labels and values are longer („ბოლო განახლება“, „14 ნოემბერი 2026“), so the second column
+     is at least 17.5rem there, on this grid and on the article's (article.css). */
+  .page-head--install > .wrap:lang(ka) { grid-template-columns: minmax(0, 48rem) minmax(17.5rem, 1fr); }
+  .page-head--install .meta:lang(ka) { grid-template-columns: 9.2rem minmax(0, 1fr); }
+  .page-head--install .meta:lang(ka) dt { font-size: 14.5px; }
+  .page-head--install .meta:lang(ka) dd { font-size: 15.5px; }
+}
+
+/* Simple pages: the title stands on the horizon, as the name does on the home page. Its baseline is
+   the field's bottom edge. Whatever goes below the baseline (a g, a comma, most Georgian letters)
+   crosses the edge and is drawn in wine there: the box is trimmed to cap height and baseline, extended
+   below the baseline (padding) and pulled back (margin), and the colour turns 0.02em under the edge,
+   so round letters that overshoot the baseline stay foam. The padding above keeps ascenders, which
+   rise past cap height, inside the painted box. Without text-box or background-clip: text the title
+   sits plainly inside the field. */
+:root { --title-edge: clamp(54px, 11vw, 150px); }
+:root:lang(ka) { --title-edge: clamp(42px, 8.4vw, 112px); }
+/* a sentence-length title (a blog post) */
+.head--text { --title-edge: clamp(34px, 5.2vw, 68px); }
+.head--text:lang(ka) { --title-edge: clamp(31px, 4.6vw, 60px); }
+
+.page-head--edge { display: flow-root; padding-top: clamp(22px, 3vw, 44px); padding-bottom: 18px; }
+.page-head--edge:has(.crumbs) { padding-top: 8px; }
+.page-head--edge .crumbs { margin-bottom: 12px; }
+.title--edge {
+  margin: 0;
+  max-width: none;
+  font-size: var(--title-edge);
+  line-height: 0.9;
+  text-wrap: balance;
+}
+.title--edge:lang(ka) { font-size: var(--title-edge); line-height: 1.14; max-width: none; }
+.head--text .title--edge { max-width: 20em; line-height: 1.04; }
+.head--text .title--edge:lang(ka) { max-width: 22em; line-height: 1.22; }
+@supports (text-box: trim-both cap alphabetic) and ((background-clip: text) or (-webkit-background-clip: text)) {
+  .page-head--edge { padding-bottom: 0; }
+  .title--edge {
+    --dip: 0.34em;
+    position: relative;
+    z-index: 1;
+    text-box: trim-both cap alphabetic;
+    padding-top: 0.12em;
+    margin-top: -0.12em;
+    padding-bottom: var(--dip);
+    margin-bottom: calc(-1 * var(--dip));
+    background: linear-gradient(to bottom, var(--foam) calc(100% - var(--dip) + 0.02em), var(--saperavi) 0);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+}
+@media (forced-colors: active) {
+  .title--edge { -webkit-text-fill-color: CanvasText; background: none; }
+}
+
+/* The lede and the facts follow on mist. After a title with descenders they start below its ink. */
+.page-intro { padding-top: clamp(24px, 2.8vw, 36px); }
+.page-intro--dip { padding-top: calc(var(--title-edge) * 0.3 + 12px); }
+/* After the name (About): clear of its descenders, at the name's own size (home.css, .fit-after). */
+.page-intro.fit-after--dip { padding-top: max(clamp(24px, 2.8vw, 36px), calc(var(--dip-px) + 12px)); }
+.page-intro .summary { margin-top: 0; }
+.page-intro .meta dt { color: var(--ink-soft); }
+
+/* Work: the lede stays in the field and the price stands on its edge (pages.css). */
+.page-head--field { display: flow-root; }
+
+/* ───────────── Footer (Saperavi deep) ───────────── */
+
+.site-footer { background: var(--saperavi-deep); color: var(--foam-soft); font-size: 15px; }
+.site-footer a { color: var(--foam); }
+
+/* Label over value, as in the skill header's meta strip. Phone: two columns, the address on its
+   own row; wider: one row; from 1000 px the copyright line moves to the right end. */
+.foot { padding-block: 32px 24px; }
+.foot__links {
+  display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px 24px;
+  margin: 0;
+}
+.foot__links > div { min-width: 0; }
+.foot__email,
+.foot__links > div:last-child { grid-column: 1 / -1; }
+.foot__links dt { color: var(--foam-soft); font-size: 13.5px; line-height: 1.4; }
+.foot__links dd {
+  display: flex; flex-wrap: wrap; align-items: center; column-gap: 18px;
+  min-height: 44px; margin: 0;
+  color: var(--foam); font-size: 16px; line-height: 1.4;
+}
+/* An address can be longer than a phone's half column: it breaks there, not into the next column. */
+.foot__links dd a { display: inline-flex; align-items: center; min-width: 0; max-width: 100%; min-height: 44px; overflow-wrap: anywhere; }
+.foot__copy {
+  margin: 18px 0 0; padding-top: 14px;
+  border-top: 1px solid var(--tab-line);
+  font-size: 14px;
+}
+
+@media (min-width: 760px) {
+  .foot { padding-block: 36px 28px; }
+  .foot__links { display: flex; flex-wrap: wrap; gap: 6px 32px; }
+}
+@media (min-width: 1000px) {
+  .foot { display: flex; justify-content: space-between; align-items: flex-end; gap: 16px 52px; }
+  .foot__links { column-gap: clamp(32px, 3.6vw, 52px); }
+  .foot__copy { flex: none; margin: 0; padding: 0; border: 0; line-height: 44px; white-space: nowrap; }
+}
+
+/* A placeholder says what is missing, in as many words as that takes: it wraps inside whatever holds
+   it (a table cell, a footer column at 320 px) instead of running out of it. */
+.ph {
+  display: inline-block;
+  max-width: 100%;
+  padding: 0 0.4em;
+  border: 1.5px dashed currentColor;
+  border-radius: 4px;
+  font-size: 0.92em; line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+
+.ph--block {
+  display: block;
+  padding: 14px 16px;
+  border-radius: 8px;
+  color: var(--ink-soft);
+  white-space: normal;
+}
+
+main { flex: 1 0 auto; }

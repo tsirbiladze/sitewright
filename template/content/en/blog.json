@@ -1,0 +1,10 @@
+{
+  "title": "Blog",
+  "description": "Notes on building small, fast websites.",
+  "lede": "Notes on building small, fast websites, and what I learn on the way.",
+  "empty": "The first post is coming soon.",
+  "ctaHeading": "Need a site like this?",
+  "ctaText": "I build small, fast sites for businesses.",
+  "postCtaHeading": "Want a site that loads this fast?",
+  "teaser": { "text": "Notes on building small, fast websites.", "link": "All posts" }
+}

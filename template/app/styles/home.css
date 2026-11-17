@@ -1,0 +1,453 @@
+/* Home: the name on the horizon, skill rows, work and hiring. Also the skills index and the 404,
+   which reuse the skill row. */
+
+/* ───────────── The name on the horizon (the homes and About) ───────────── */
+
+.hero {
+  display: flow-root; /* keeps the dipping name's negative margin inside the field */
+  overflow-x: clip;   /* a fallback face is wider than the name's condensed cut */
+  background: var(--saperavi);
+  color: var(--foam);
+  padding-top: clamp(28px, 3vw, 40px);
+}
+@media (min-width: 520px) {
+  .hero { padding-top: clamp(20px, 2.1vw, 28px); }
+}
+/* The name is sized from its column, so it runs from margin to margin and ends on the same line as
+   the navigation above it and the column below. A container unit follows the column itself; a
+   viewport unit also counts a classic scrollbar, and the name then outgrew a narrow window. */
+.hero > .wrap { container-type: inline-size; }
+
+/* Its size, for any name (lib/fit.ts). At build time the name is measured in the fonts the page draws
+   it with, and the page's <main> carries the result: --fit-1, --fit-2 and --fit-3, the name's widest
+   line in em on one, two and three lines (a little slack included), and --fit-1-from and --fit-2-from,
+   the column widths from which one line, and then two, are set at least the script's smallest masthead
+   size. The size is the column divided by the widest line of the fewest lines that reach it; min() and
+   max() pick it (a term times 1000 is a step), with no media query and no script. The browser breaks
+   the lines itself, at a space or after a hyphen: at that size no fewer lines fit. --fit-c is the
+   column: the container on the name, and the viewport less the gutters on what follows the masthead,
+   which has to clear what dips below the edge. */
+.name,
+.fit-after {
+  --fit-size: min(
+    var(--fit-c) / var(--fit-3),
+    max(var(--fit-c) / var(--fit-2), var(--fit-c) / var(--fit-2) + (var(--fit-2-from) - var(--fit-c)) * 1000),
+    max(var(--fit-c) / var(--fit-1), var(--fit-c) / var(--fit-1) + (var(--fit-1-from) - var(--fit-c)) * 1000)
+  );
+}
+.name { --fit-c: 100cqi; }
+.fit-after { --fit-c: min(100vw - 2 * var(--gutter), var(--max)); }
+
+/* Latin: without descenders the line box is trimmed to cap height and baseline, and the baseline is the
+   bottom edge of the field. Archivo at width 62, weight 800, -0.012em (lib/fit.ts STYLES.name). */
+.name {
+  margin: 0;
+  font-size: var(--fit-size);
+  font-stretch: 62%;
+  font-weight: 800;
+  line-height: 0.86;
+  letter-spacing: var(--track-display);
+  text-box: trim-both cap alphabetic;
+}
+@supports not (text-box: trim-both cap alphabetic) {
+  .name { margin-bottom: -0.07em; }
+}
+
+/* A name with descenders (every Georgian one: კ ე ლ ძ; in Latin g j p q y). The baseline still sits on
+   the edge; the descenders cross it, and everything below the edge takes the field's colour. The box
+   is trimmed to cap height and baseline, then extended below the baseline (padding) and pulled back
+   (margin) so the field still ends exactly at the baseline. Without text-box or background-clip: text,
+   the name sits plainly inside the field. Georgian: Noto Sans Georgian at width 62.5, weight 800. */
+.name--dip { --dip: 0.26em; line-height: 0.96; }
+.name:lang(ka) {
+  --dip: 0.34em;
+  font-stretch: 62.5%;
+  line-height: 1.14;
+  text-box: none;
+  padding-bottom: 0.12em;
+}
+.fit-after { --dip-px: 0px; }
+@supports (text-box: trim-both cap alphabetic) and ((background-clip: text) or (-webkit-background-clip: text)) {
+  .name--dip {
+    position: relative;
+    z-index: 1;
+    /* Mkhedruli ascenders and Latin accents rise above cap height: keep 0.12em headroom */
+    text-box: trim-both cap alphabetic;
+    padding-top: 0.12em;
+    margin-top: -0.12em;
+    padding-bottom: var(--dip);
+    margin-bottom: calc(-1 * var(--dip));
+    /* the colour turns 0.02em under the baseline, so the round letters' overshoot (თ ო ს ი რ ბ) stays
+       foam and only true descenders are wine below the edge */
+    background: linear-gradient(to bottom, var(--foam) calc(100% - var(--dip) + 0.02em), var(--saperavi) 0);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  /* what follows starts below the descenders: the name's size from the viewport, times the dip */
+  .fit-after--dip { --dip-px: calc(var(--fit-size) * 0.26); }
+  .fit-after--dip:lang(ka) { --dip-px: calc(var(--fit-size) * 0.34); }
+}
+@media (forced-colors: active) {
+  .name--dip { -webkit-text-fill-color: CanvasText; background: none; }
+}
+
+/* Home body: one container. Phone: the photo floats beside the lede.
+   Wider: a grid with explicit placement. */
+.home-body { display: flow-root; padding-bottom: 88px; }
+
+.photo-slot {
+  float: right;
+  width: 27%; max-width: 112px;
+  aspect-ratio: 4 / 5;
+  margin: 0 0 12px 18px;
+  padding: 10px;
+  display: grid; place-content: center; gap: 4px;
+  text-align: center;
+  background: var(--slot);
+  color: var(--ink-soft);
+  border: 2px dashed var(--ink-soft);
+  border-top: 0;
+  border-radius: 0 0 12px 12px;
+}
+.photo-slot strong { color: var(--ink); font-size: 15px; font-weight: 650; }
+.photo-slot figcaption { font-size: 13.5px; line-height: 1.35; }
+
+.lede {
+  margin: 0;
+  padding-top: 26px;
+  max-width: 30em;
+  font-size: clamp(19px, 0.9rem + 0.9vw, 23px);
+  line-height: 1.45;
+  text-wrap: pretty;
+}
+/* Georgian words are long: at the English lede's width the measure fell to 48–57 characters a line
+   at 1280. Width tracks size, so the lede is set a step narrower than body text (92%, the CTA is 90%)
+   and takes its whole column (about 60–66 characters at 1280). */
+.lede:lang(ka) {
+  font-size: clamp(18px, 1.05rem + 0.4vw, 20px);
+  font-stretch: 92%;
+  line-height: 1.65;
+  max-width: none;
+}
+/* The Georgian name dips 0.34em below the edge. Nothing starts below the edge until
+   its ink ends: the lede clears it, and the photo hangs from the descender line. */
+.fit-after--dip .lede { padding-top: calc(var(--dip-px) + 18px); }
+.fit-after--dip .photo-slot { margin-top: var(--dip-px); border-top: 2px dashed var(--ink-soft); border-radius: 12px; }
+@media (max-width: 699px) {
+  /* 540–699 px: the lede wraps around a narrow slot, then runs full width */
+  .home-body--ka .photo-slot { width: 24%; max-width: 92px; }
+}
+@media (max-width: 539px) {
+  /* Phones: the slot floats beside the lede's first lines, as on the English home, and the lede then
+     runs full width. The slot is narrow (84 px) and the lede a step narrower on the width axis, so
+     the lines beside it hold about 14–24 characters. Alone on a row above the lede, the slot left an
+     empty band under the name. */
+  .home-body--ka .photo-slot { width: 84px; max-width: none; margin: var(--dip-px) 0 8px 16px; padding: 6px; }
+  .home-body--ka .photo-slot strong { font-size: 13px; }
+  .home-body--ka .photo-slot figcaption { font-size: 11.5px; }
+  .home-body--ka .lede { padding-top: calc(var(--dip-px) + 16px); font-stretch: 88%; }
+}
+@media (max-width: 359px) {
+  .home-body--ka .photo-slot { width: 76px; margin-left: 12px; }
+}
+@media (max-width: 399px) {
+  .photo-slot { padding: 6px; }
+  .photo-slot strong { font-size: 13px; }
+  .photo-slot figcaption { font-size: 12px; }
+}
+
+/* Every section opens on a rule; the one with the call to action opens on the wine rule that
+   introduces the CTA on every page (.cta-block). */
+.skills { clear: both; margin-top: 44px; padding-top: 26px; border-top: 1px solid var(--rule); }
+.work { margin-top: 52px; padding-top: 25px; border-top: 2px solid var(--saperavi); }
+.hiring,
+.blog { margin-top: 52px; padding-top: 26px; border-top: 1px solid var(--rule); }
+.latest { margin-top: 40px; }
+
+@media (min-width: 700px) {
+  .home-body {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 232px;
+    column-gap: 48px;
+    align-items: start;
+  }
+  .photo-slot { float: none; grid-column: 2; grid-row: 1; justify-self: end; width: 160px; max-width: none; margin: 0; }
+  .lede { grid-column: 1; grid-row: 1; padding-top: 40px; }
+  .skills { grid-column: 1 / -1; grid-row: 2; }
+  /* Work spans both rows, so the column beside it stacks Hiring/Blog and the latest release tightly */
+  .work { grid-column: 1; grid-row: 3 / span 2; }
+  .hiring,
+  .blog { grid-column: 2; grid-row: 3; padding-top: 26px; }
+  .latest { grid-column: 2; grid-row: 4; }
+}
+@media (min-width: 700px) and (max-width: 999px) {
+  /* Georgian: the lede also runs under the slot's column, clear of the 160 px slot */
+  .home-body--ka .lede { grid-column: 1 / -1; padding-right: 192px; }
+}
+@media (min-width: 1000px) {
+  /* Row 4 is flexible, so the long skills column takes its extra height there and
+     Work and Hiring sit directly under the photo. */
+  .home-body {
+    grid-template-columns: minmax(0, 7fr) minmax(0, 4fr);
+    grid-template-rows: auto auto auto 1fr;
+    column-gap: 96px;
+    padding-bottom: 104px;
+  }
+  /* Georgian: a wider first column for the lede's measure */
+  .home-body--ka { grid-template-columns: minmax(0, 2fr) minmax(0, 1fr); column-gap: 72px; }
+  .photo-slot { justify-self: start; }
+  .lede { padding-top: 40px; }
+  /* Row 2 starts where the photo ends; the rules of Skills and Work sit on one line. Tight enough
+     that all three ways in (Skills, Work with me, Hiring) end inside a 1280 × 800 screen. */
+  .skills { grid-column: 1; grid-row: 2 / span 3; margin-top: 20px; padding-top: 19px; }
+  .work { grid-column: 2; grid-row: 2; margin-top: 20px; padding-top: 18px; }
+  .work .cta { margin-top: 16px; }
+  .hiring,
+  .blog { grid-column: 2; grid-row: 3; margin-top: 22px; padding-top: 14px; }
+  /* Under Hiring/Blog, in the column's spare height beside the skill row */
+  .latest { grid-column: 2; grid-row: 4; margin-top: 36px; }
+}
+
+/* Home sections */
+
+.home-body h2,
+.cta-block h2 {
+  margin: 0 0 8px;
+  color: var(--saperavi);
+  font-size: clamp(28px, 1.2rem + 1.2vw, 36px);
+  font-stretch: 75%;
+  font-weight: 700;
+  line-height: 1.1;
+}
+.home-body h2:lang(ka),
+.cta-block h2:lang(ka) { line-height: 1.3; font-size: clamp(25px, 1.1rem + 1vw, 31px); }
+
+.home-body section p { margin: 0; }
+.section-intro { color: var(--ink-soft); }
+
+.skill-list { margin: 22px 0 0; padding: 0; list-style: none; }
+.home-body .skill-row:first-child { padding-top: 0; border-top: 0; }
+.skill-row { padding-top: 22px; border-top: 1px solid var(--rule); }
+.skill-row__name {
+  margin: 0;
+  font-size: clamp(26px, 1rem + 1.2vw, 32px);
+  font-stretch: 75%; font-weight: 700; line-height: 1.15;
+}
+/* On the home the name sits under the section's h2, so it is a clear step smaller (and, as width
+   tracks size, a step wider): an item of the section, not a second heading. */
+.home-body .skill-row__name { font-size: clamp(22px, 0.85rem + 0.7vw, 26px); font-stretch: 80%; }
+.home-body .skill-row__name:lang(ka) { font-size: clamp(21px, 0.8rem + 0.6vw, 24px); }
+/* The name is the way to the skill's page, so it is underlined like every other link. */
+.skill-row__name a {
+  display: inline-flex; align-items: center; min-height: 44px;
+  text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.16em;
+}
+.skill-row__name a:hover { text-decoration-thickness: 3px; }
+.skill-row .summary-line { margin-top: 2px; max-width: 34em; }
+.skill-row .cmd { margin-top: 14px; }
+.skill-row + .skill-row { margin-top: 32px; }
+.skill-row--compact .skill-row__name { font-size: clamp(23px, 0.9rem + 0.9vw, 27px); }
+
+/* What the skill does, shown, not described: crops of the demo invoice cut at fetch time
+   (a skill's specimen, or a plain project's picture), the wide one from 700 px and a tighter one below, where the wide one would be
+   drawn too small to read (components/Specimen.tsx). */
+.specimen {
+  display: block;
+  margin: 18px 0 0;
+  overflow: hidden;
+  border: 1px solid var(--rule);
+  border-radius: 8px;
+  background: #fff;
+}
+.specimen img { width: 100%; }
+/* Below 700 px the picture is the phone crop, 420 px wide. It is never drawn larger than that: from
+   520 to 699 px, stretched to the column, its figures were larger than the text around it. */
+@media (max-width: 699px) {
+  .specimen { max-width: 420px; }
+}
+/* In a skill row the picture opens the skill's page too, and a line under it says what it shows. */
+.specimen-fig { margin: 18px 0 0; }
+.specimen-fig .specimen { margin: 0; }
+.specimen-fig a { display: block; border-radius: 8px; }
+.specimen-fig a:hover .specimen { border-color: var(--ink-soft); }
+.specimen-fig figcaption {
+  max-width: 34em;
+  margin-top: 8px;
+  color: var(--ink-soft);
+  font-size: 15px; line-height: 1.5;
+  text-wrap: pretty;
+}
+.specimen-fig figcaption:lang(ka) { line-height: 1.65; }
+
+.more { display: inline-flex; align-items: center; min-height: 44px; margin-top: 12px; }
+
+.work p { max-width: 26em; }
+.work .cta { margin-top: 20px; }
+.hiring p + p,
+.blog p + p { margin-top: 4px; }
+.hiring a,
+.blog a { display: inline-flex; align-items: center; min-height: 44px; }
+
+/* Latest releases: ledger lines, name and version on the left, date on the right, like the
+   changelog on a skill page. A smaller heading: this is a note on the skills, not a fourth way in. */
+.home-body .latest h2 { font-size: clamp(21px, 1rem + 0.4vw, 24px); font-stretch: 80%; margin-bottom: 6px; }
+.home-body .latest h2:lang(ka) { font-size: clamp(20px, 0.95rem + 0.4vw, 23px); }
+.release-list { margin: 0; padding: 0; list-style: none; border-top: 1px solid var(--rule); }
+.release-list li { border-bottom: 1px solid var(--rule); }
+.release-list a {
+  display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 0 12px;
+  min-height: 44px; padding-block: 10px;
+  color: var(--ink); text-decoration: none;
+}
+.release-list__name { color: var(--saperavi); font-weight: 650; }
+.release-list a:hover .release-list__name { text-decoration: underline; text-decoration-thickness: 2px; }
+.release-list__version { font-variant-numeric: tabular-nums; }
+.release-list time { color: var(--ink-soft); font-variant-numeric: tabular-nums; }
+
+/* ───────────── Skills index: one row per skill, facts in a column that lines up ───────────── */
+
+.skill-index { margin: 0; padding: 0; list-style: none; max-width: 72rem; }
+.skill-index .skill-row { display: grid; grid-template-columns: minmax(0, 1fr); padding-block: 32px 36px; }
+
+/* More than one category: a heading per category, with its count */
+.skill-group + .skill-group { margin-top: 56px; }
+.skill-group__h {
+  display: flex; flex-wrap: wrap; align-items: baseline; gap: 0 14px;
+  max-width: 72rem; margin: 0 0 20px; padding-bottom: 10px;
+  border-bottom: 1px solid var(--saperavi); /* the 2 px wine rule stays the CTA's */
+  color: var(--saperavi);
+  font-size: clamp(26px, 1.1rem + 1vw, 32px); font-stretch: 75%; font-weight: 700; line-height: 1.15;
+}
+.skill-group__n { color: var(--ink-soft); font-size: 16px; font-stretch: 100%; font-weight: 400; }
+.skill-index .skill-row:first-child { border-top: 0; padding-top: 0; }
+.skill-index .skill-row + .skill-row { margin-top: 0; }
+.skill-index .summary-line { max-width: 36em; }
+
+.skill-facts {
+  display: flex; flex-wrap: wrap; gap: 10px 28px;
+  margin: 16px 0 0;
+}
+.skill-facts div { display: flex; flex-direction: column; min-width: 0; }
+.skill-facts dt { color: var(--ink-soft); font-size: 14px; line-height: 1.4; }
+.skill-facts dd { margin: 0; font-size: 16px; font-weight: 550; line-height: 1.45; }
+.skill-facts__wide dd { font-weight: 400; }
+.skill-list .skill-facts { margin-top: 14px; gap: 8px 28px; }
+.skill-list .skill-facts dt { font-size: 13.5px; }
+@media (max-width: 599px) {
+  .skill-list .skill-facts { column-gap: 20px; }
+}
+
+/* Status at a glance: a filled disc for stable, half for beta, a ring for experimental. */
+.status { display: inline-flex; align-items: center; gap: 0.45em; }
+.status::before {
+  content: ""; flex: none;
+  width: 0.6em; height: 0.6em; border-radius: 50%;
+  box-shadow: inset 0 0 0 2px var(--saperavi);
+}
+.status--stable::before { background: var(--saperavi); }
+.status--beta::before { background: linear-gradient(90deg, var(--saperavi) 50%, transparent 50%); }
+@media (forced-colors: active) {
+  .status::before { forced-color-adjust: none; background: CanvasText; box-shadow: none; }
+}
+
+@media (min-width: 900px) {
+  /* Name, job, picture and install line on the left; the facts in a column on the right. */
+  .skill-index .skill-row {
+    grid-template-columns: minmax(0, 44rem) 15rem;
+    grid-template-rows: auto auto auto auto 1fr;
+    column-gap: 64px;
+  }
+  .skill-index .skill-row > * { grid-column: 1; }
+  .skill-index .skill-facts {
+    grid-column: 2; grid-row: 1 / -1; align-self: start;
+    display: grid; grid-template-columns: 6rem minmax(0, 1fr); gap: 0;
+    margin: 6px 0 0;
+    border-top: 1px solid var(--rule);
+  }
+  .skill-index .skill-facts div {
+    display: grid; grid-template-columns: subgrid; grid-column: 1 / -1;
+    padding-block: 9px; border-bottom: 1px solid var(--rule);
+  }
+  .skill-index .skill-facts dt { font-size: 15px; line-height: 1.5; }
+  .skill-index .skill-facts dd { font-size: 16px; line-height: 1.5; }
+  .skill-index .specimen-fig { margin-top: 20px; }
+}
+@media (min-width: 1000px) {
+  /* The home's columns (7fr + 4fr, 96 px apart): the picture is as wide as on the home and on Work,
+     and the facts start where the home's and Work's side columns start and end on the right margin.
+     The call to action's rule runs the width of the first column. */
+  .skill-index { max-width: none; }
+  .skill-index .skill-row { grid-template-columns: minmax(0, 7fr) minmax(0, 4fr); column-gap: 96px; }
+  .skill-index-page .cta-block,
+  .skill-index__note { max-width: calc((100% - 96px) * 7 / 11); }
+}
+.skill-index .cmd { margin-top: 16px; }
+
+/* Every row after the newest: no picture, and the three facts that differ from skill to skill on one
+   line (the status as a disc and its word, the version, the date it was updated). From 1000 px the
+   install line sits beside the summary, so a row is about 140 px and twenty skills stay short. */
+.skill-index .skill-row--index-compact { grid-template-columns: minmax(0, 1fr); grid-template-rows: none; padding-block: 18px 22px; }
+.skill-index .skill-row--index-compact > * { grid-column: 1; }
+.skill-index .skill-row--index-compact .skill-row__name { font-size: clamp(23px, 0.9rem + 0.9vw, 27px); }
+.skill-index .skill-row--index-compact .summary-line { margin-bottom: 0; }
+.skill-index .skill-row--index-compact .skill-facts {
+  grid-row: auto;
+  display: flex; flex-wrap: wrap; align-items: baseline; gap: 0 20px;
+  margin: 10px 0 0; border: 0;
+}
+.skill-index .skill-row--index-compact .skill-facts div { display: flex; flex-direction: row; align-items: baseline; gap: 6px; padding: 0; border: 0; }
+.skill-index .skill-row--index-compact .skill-facts :is(dt, dd) { font-size: 15.5px; line-height: 1.5; }
+.skill-index .skill-row--index-compact .cmd { margin-top: 10px; }
+@media (min-width: 1000px) {
+  .skill-index .skill-row--index-compact { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); column-gap: 40px; }
+  .skill-index .skill-row--index-compact .skill-row__name { grid-column: 1; grid-row: 1; }
+  .skill-index .skill-row--index-compact .summary-line { grid-column: 1; grid-row: 2; margin-top: 0; }
+  .skill-index .skill-row--index-compact .skill-facts { grid-column: 2; grid-row: 1; align-self: center; margin: 0; }
+  .skill-index .skill-row--index-compact .cmd { grid-column: 2; grid-row: 2; align-self: start; margin-top: 2px; }
+}
+
+/* Categories under the lede, when there is more than one: each links to its group below */
+.cat-jump { display: flex; flex-wrap: wrap; gap: 0 18px; margin: 0; padding: 0; list-style: none; }
+.cat-jump a { display: inline-flex; align-items: center; gap: 6px; min-height: 44px; }
+.cat-jump__n { color: var(--ink-soft); font-weight: 400; }
+
+.skill-index__note { margin: 12px 0 0; color: var(--ink-soft); font-size: 16px; max-width: 48rem; }
+.skill-index-page .cta-block { margin-top: 56px; }
+
+/* ───────────── 404 ───────────── */
+
+/* The way home comes first, straight under the explanation; the directory follows. */
+.nf.page-body { padding-top: clamp(28px, 3.4vw, 40px); }
+.nf__guess { margin: 0 0 28px; font-size: clamp(19px, 0.9rem + 0.9vw, 23px); line-height: 1.45; }
+.nf__guess[hidden] { display: none; }
+.nf__h {
+  margin: 0 0 12px;
+  color: var(--saperavi);
+  font-size: clamp(24px, 1rem + 1vw, 30px); font-stretch: 75%; font-weight: 700; line-height: 1.15;
+}
+.nf__list, .nf__sub { margin: 0; padding: 0; list-style: none; }
+.nf__list { max-width: 48rem; border-top: 1px solid var(--rule); }
+.nf__list > li { padding-block: 14px 16px; border-bottom: 1px solid var(--rule); }
+.nf__list a { display: inline-flex; align-items: center; min-height: 44px; font-weight: 600; }
+.nf__list p { margin: 0; color: var(--ink-soft); max-width: 36em; }
+.nf__sub { margin-top: 6px; }
+.nf__sub li { padding-left: 18px; border-left: 2px solid var(--rule); }
+.nf__sub a { font-weight: 550; }
+.nf__list p a { display: inline; min-height: 0; font-weight: inherit; }
+@media (min-width: 760px) {
+  /* Name and description side by side, so the list reads like a directory */
+  .nf__list > li, .nf__sub li { display: grid; grid-template-columns: 11rem minmax(0, 1fr); column-gap: 24px; align-items: baseline; }
+  .nf__list > li > a, .nf__sub a { grid-column: 1; }
+  .nf__list > li > p, .nf__sub p { grid-column: 2; }
+  .nf__sub { grid-column: 1 / -1; }
+  .nf__sub li { grid-template-columns: calc(11rem - 20px) minmax(0, 1fr); }
+}
+.nf__report { margin: 32px 0 0; max-width: 40em; }
+.nf__home { margin: 0 0 44px; }
+
+/* About and the blog share the column beside Work, each where the language has it (components/Home.tsx). */
+.home-side > section + section { margin-top: 32px; }
+@media (min-width: 700px) {
+  .home-side { grid-column: 2; grid-row: 3; }
+}

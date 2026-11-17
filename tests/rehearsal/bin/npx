@@ -1,0 +1,97 @@
+#!/usr/bin/env node
+// A stand-in for `npx` during a rehearsal of the skill: calls of the pinned Vercel CLI are answered
+// here, with nothing reaching Vercel; every other call goes to the real npx.
+// The Vercel answers come from the template's own stand-in (template/tests/stand-ins/vercel.mjs, modelled
+// on what the real CLI printed), plus what a first run needs: whoami, login, project create, link, and
+// a production address that really serves the build (a local `next start`), so `pnpm go-live` can
+// prove its pages.
+import { spawn, spawnSync } from 'node:child_process';
+import { existsSync, mkdirSync, readFileSync, writeFileSync, appendFileSync, openSync } from 'node:fs';
+import { delimiter, dirname, join } from 'node:path';
+
+const home = process.env.REHEARSAL_HOME;
+const args = process.argv.slice(2);
+const at = args.findIndex((a) => /^vercel(@|$)/.test(a));
+
+if (at === -1 || !home) {
+  // The real npx: the next one on PATH after this folder.
+  const here = dirname(new URL(import.meta.url).pathname);
+  const path = (process.env.PATH ?? '').split(delimiter).filter((p) => p && p !== here);
+  const real = path.map((p) => join(p, 'npx')).find((p) => existsSync(p));
+  if (!real) { console.error('rehearsal: no real npx on PATH'); process.exit(127); }
+  const r = spawnSync(real, args, { stdio: 'inherit', env: { ...process.env, PATH: path.join(delimiter) } });
+  process.exit(r.status ?? 1);
+}
+
+const stateFile = join(home, 'vercel-state.json');
+const log = join(home, 'calls.log');
+const state = () => JSON.parse(readFileSync(stateFile, 'utf8'));
+const save = (s) => writeFileSync(stateFile, JSON.stringify(s, null, 2));
+const vercel = args.slice(at + 1);
+// The global flags the site's commands add are not part of the question.
+const plain = [];
+for (let i = 0; i < vercel.length; i++) {
+  if (vercel[i] === '--non-interactive') continue;
+  if (vercel[i] === '--scope' || vercel[i] === '--global-config') { i++; continue; }
+  plain.push(vercel[i]);
+}
+const [cmd, sub] = plain;
+const standIn = join(home, 'template/tests/stand-ins/vercel.mjs');
+const passOn = () => {
+  const r = spawnSync(process.execPath, [standIn, ...vercel], { stdio: 'inherit', env: { ...process.env, STAND_IN_STATE: stateFile, STAND_IN_LOG: log } });
+  return r.status ?? 1;
+};
+const note = (line) => appendFileSync(log, `vercel ${plain.join(' ')}${line ? `   # ${line}` : ''}\n`);
+
+if (cmd === 'login') {
+  note('the owner signs in, in their browser');
+  save({ ...state(), signedIn: true });
+  console.log('> Success! Authentication complete. (rehearsal: nobody signed in to anything)');
+  process.exit(0);
+}
+
+if (cmd === 'project' && sub === 'create') {
+  const name = plain[2];
+  note();
+  if (!name) { console.error('Error: Invalid number of arguments. Usage: `vercel project create <name>`'); process.exit(1); }
+  const s = state();
+  if (s.signedIn === false) { console.error('Error: No existing credentials found. Please run `vercel login` or pass "--token"'); process.exit(1); }
+  save({ ...s, project: name });
+  console.log(`> Success! Project ${name} added (rehearsal)`);
+  process.exit(0);
+}
+
+if (cmd === 'link') {
+  const s = state();
+  const i = plain.findIndex((a) => a === '--project' || a === '-p');
+  const name = i === -1 ? s.project : plain[i + 1];
+  note(plain.includes('--yes') || plain.includes('-y') ? '' : 'without --yes the real CLI asks its questions at a keyboard');
+  if (s.signedIn === false) { console.error('Error: No existing credentials found. Please run `vercel login` or pass "--token"'); process.exit(1); }
+  if (!name) { console.error('Error: no project named: the real CLI would ask which one here (rehearsal: pass --yes --project <name>)'); process.exit(1); }
+  mkdirSync('.vercel', { recursive: true });
+  writeFileSync('.vercel/project.json', JSON.stringify({ projectId: 'prj_rehearsal', orgId: 'team_rehearsal', projectName: name }));
+  save({ ...s, project: name });
+  console.log(`Linked to rehearsal/${name} (created .vercel)`);
+  process.exit(0);
+}
+
+if (cmd === 'deploy' && plain.includes('--prod')) {
+  // Production's address is a local server of the build that was just made in this folder.
+  const s = state();
+  const port = s.port ?? 4350;
+  if (s.serverPid) { try { process.kill(s.serverPid); } catch { /* already gone */ } }
+  const out = openSync(join(home, 'production-server.log'), 'a');
+  const server = spawn(process.execPath, ['node_modules/next/dist/bin/next', 'start', '-p', String(port)], { detached: true, stdio: ['ignore', out, out] });
+  server.unref();
+  save({ ...s, serverPid: server.pid, deploy: { ...(s.deploy ?? {}), productionUrl: `http://localhost:${port}` } });
+  for (let i = 0; i < 40; i++) {
+    const up = spawnSync(process.execPath, ['-e', `fetch('http://localhost:${port}/').then(()=>process.exit(0),()=>process.exit(1))`]);
+    if (up.status === 0) break;
+    spawnSync(process.execPath, ['-e', 'setTimeout(()=>{},500)']);
+  }
+  const code = passOn();
+  if (code === 0) save({ ...state(), productionDeployments: 1 });
+  process.exit(code);
+}
+
+process.exit(passOn());

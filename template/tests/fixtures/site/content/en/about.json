@@ -1,0 +1,74 @@
+{
+  "title": "About",
+  "description": "Elisabed Shabloni: a fictional front-end developer in Kutaisi, about six years in, and the demo person of this site’s template.",
+  "lede": "Front-end developer who builds small, fast websites.",
+  "facts": [
+    { "label": "Based in", "value": "Kutaisi, Georgia" },
+    { "label": "Experience", "value": "About six years" },
+    { "label": "Open to", "value": "Freelance projects and remote roles" },
+    { "label": "Languages", "value": "Georgian, English, German (basic)" }
+  ],
+  "contact": {
+    "heading": "Contact",
+    "text": "Hiring a front-end developer, or need a site? Tell me about it.",
+    "button": "Email me about a role",
+    "subject": "A front-end role"
+  },
+  "cv": { "label": "CV", "href": "/elisabed-shabloni-cv.pdf", "text": "Download (PDF, 1 page)" },
+  "sections": [
+    {
+      "heading": "Experience",
+      "entries": [
+        {
+          "when": "2023 – now",
+          "date": "2023",
+          "title": "Freelance front-end developer",
+          "where": "Kutaisi, and remote",
+          "text": "Small websites and tools for shops, cafés and studios, from the first sketch to the live address.",
+          "stack": "TypeScript, Next.js, CSS"
+        },
+        {
+          "when": "2020 – 2023",
+          "date": "2020",
+          "title": "Front-end developer",
+          "where": "Example Studio, Tbilisi (a fictional company)",
+          "text": "Built and looked after the websites of the studio’s clients.",
+          "stack": "React, Sass, Figma"
+        }
+      ]
+    },
+    {
+      "heading": "Open source",
+      "entries": [
+        {
+          "when": "Oct 2026",
+          "date": "2026-10",
+          "title": "menu-cards",
+          "href": "/projects/menu-cards",
+          "where": "Tool, MIT",
+          "text": "Turns a café’s menu, kept in a spreadsheet, into a printed card and a menu page.",
+          "stack": "TypeScript, Node.js"
+        },
+        {
+          "when": "Mar 2026",
+          "date": "2026-03",
+          "title": "opening-hours",
+          "href": "/projects/opening-hours",
+          "where": "Widget, MIT",
+          "text": "Tells a shop’s visitors whether it is open right now.",
+          "stack": "TypeScript"
+        }
+      ]
+    }
+  ],
+  "stack": {
+    "heading": "Stack",
+    "groups": [
+      { "group": "Front end", "items": "TypeScript, React, Next.js, HTML, CSS" },
+      { "group": "Design", "items": "Figma, typography, accessibility checks" },
+      { "group": "Tools", "items": "Git, Node.js, Playwright" },
+      { "group": "Hosting", "items": "Vercel, static sites, DNS" }
+    ]
+  },
+  "teaser": { "heading": "Open to roles", "text": "Hiring a front-end developer?", "link": "CV and experience" }
+}

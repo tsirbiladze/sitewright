@@ -1,0 +1,42 @@
+{
+  "$comment": "A plain project: its text is in content/<lang>/projects/menu-cards.md. The addresses below are fictional (example.com), like the rest of the demo.",
+  "kind": "plain",
+  "date": "2026-10-20",
+  "image": {
+    "src": "/projects/menu-cards/menu-wide.webp",
+    "width": 920,
+    "height": 236,
+    "phone": { "src": "/projects/menu-cards/menu-phone.webp", "width": 420, "height": 238 }
+  },
+  "install": [
+    {
+      "id": "git",
+      "label": { "en": "Git", "ka": "Git" },
+      "commands": ["git clone https://code.example.com/elisabed/menu-cards.git"],
+      "note": {
+        "en": "Then point it at your own spreadsheet; the README says how. A fictional address: the demo has no real repository.",
+        "ka": "შემდეგ შენს ცხრილზე მიუთითე; როგორ, README-ში წერია. მისამართი გამოგონილია: დემოს ნამდვილი რეპოზიტორია არ აქვს."
+      }
+    },
+    {
+      "id": "download",
+      "label": { "en": "Download", "ka": "ჩამოტვირთვა" },
+      "short": { "ka": "zip" },
+      "download": { "href": "https://code.example.com/elisabed/menu-cards.zip", "label": { "en": "Download the zip", "ka": "zip-ის ჩამოტვირთვა" } },
+      "note": {
+        "en": "The same files, without Git. Unpack them next to your spreadsheet.",
+        "ka": "იგივე ფაილები, Git-ის გარეშე. გახსენი შენი ცხრილის გვერდით."
+      }
+    },
+    {
+      "id": "config",
+      "label": { "en": "Config", "ka": "კონფიგურაცია" },
+      "language": "json",
+      "commands": ["{\n  \"sheet\": \"menu.csv\",\n  \"columns\": [\"dish\", \"price\"],\n  \"currency\": \"₾\"\n}"],
+      "note": {
+        "en": "Save it as menu.json beside the spreadsheet: which file, which columns, which currency.",
+        "ka": "შეინახე menu.json სახელით ცხრილის გვერდით: რომელი ფაილი, რომელი სვეტები, რომელი ვალუტა."
+      }
+    }
+  ]
+}

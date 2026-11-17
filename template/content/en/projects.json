@@ -1,0 +1,10 @@
+{
+  "title": "Projects",
+  "description": "Small open-source tools and websites by Elisabed Shabloni, a fictional developer.",
+  "lede": "Small tools and websites. Each page says what the project does and how to use it.",
+  "intro": "Small tools and websites, the newest first.",
+  "all": "All projects",
+  "count": { "one": "{n} project", "other": "{n} projects" },
+  "ctaHeading": "Need a site like these?",
+  "projectCtaHeading": "Want something like this for your business?"
+}

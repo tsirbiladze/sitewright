@@ -1,0 +1,84 @@
+{
+  "$comment": "Interface words for Georgian pages: the same for every person. Georgian speaks to the reader as „შენ“ and is never letter-spaced or uppercased.",
+  "language": { "name": "ქართული", "inThisLanguage": "ქართულად" },
+  "locale": "ka_GE",
+  "date": {
+    "format": "{d} {month} {y}",
+    "months": ["იანვარი", "თებერვალი", "მარტი", "აპრილი", "მაისი", "ივნისი", "ივლისი", "აგვისტო", "სექტემბერი", "ოქტომბერი", "ნოემბერი", "დეკემბერი"]
+  },
+  "wordsPerMinute": 150,
+  "chrome": {
+    "skip": "მთავარ შინაარსზე გადასვლა",
+    "nav": "მთავარი მენიუ",
+    "breadcrumb": "ნავიგაციის ჯაჭვი",
+    "email": "ელფოსტა",
+    "forAgents": "აგენტებისთვის",
+    "photo": { "label": "ადგილი ფოტოსთვის", "title": "[[ფოტო]]", "note": "აქ ფოტო იქნება" }
+  },
+  "project": {
+    "category": "კატეგორია",
+    "status": "სტატუსი",
+    "version": "ვერსია",
+    "license": "ლიცენზია",
+    "updated": "ბოლო განახლება",
+    "changelog": "ცვლილებები",
+    "onThisPage": "ამ გვერდზე",
+    "formats": "ფორმატები",
+    "link": "მისამართი",
+    "statuses": { "stable": "სტაბილური", "beta": "ბეტა", "experimental": "ექსპერიმენტული" },
+    "changelogElsewhere": "რა შეიცვალა თითოეულ ვერსიაში, ინგლისურად არის აღწერილი ფაილში {file}.",
+    "table": "ცხრილი",
+    "fullSize": "სრული ზომით გახსნა"
+  },
+  "install": {
+    "heading": "ინსტალაცია",
+    "copy": "კოპირება",
+    "copied": "დაკოპირდა",
+    "full": "სრული SKILL.md-ის წაკითხვა",
+    "source": "წყარო",
+    "config": "კონფიგურაცია (JSON)",
+    "markdownView": "Markdown-ად ნახვა",
+    "markdownCopy": "Markdown-ად კოპირება",
+    "markdownFailed": "ვერ დაკოპირდა. გახსენი Markdown-ის ვერსია."
+  },
+  "projectsIndex": {
+    "published": "გამოქვეყნდა",
+    "category": "კატეგორია",
+    "categories": "კატეგორიები",
+    "latest": "ბოლო განახლება",
+    "agents": "აგენტები ამ სიას Markdown-ად წაიკითხავენ აქ: {link}."
+  },
+  "releases": { "one": "ბოლო ვერსია", "other": "ბოლო ვერსიები" },
+  "blog": {
+    "minutes": { "one": "{n} წუთის საკითხავი", "other": "{n} წუთის საკითხავი" },
+    "draft": "მონახაზი: არ გამოქვეყნდება",
+    "all": "ბლოგის ყველა პოსტი",
+    "feed": "ახალ პოსტებს RSS არხით მიიღებ:"
+  },
+  "notFound": {
+    "title": "გვერდი ვერ მოიძებნა",
+    "lede": "ამ მისამართზე არაფერია. შესაძლოა, ბმული მოძველებულია ან მისამართი შეცდომით არის აკრეფილი.",
+    "guess": "იქნებ ამ გვერდს ეძებ:",
+    "guessEnd": "",
+    "heading": "რა არის ამ საიტზე",
+    "agents": "საიტის სარჩევი AI აგენტებისთვის. პროექტების გვერდები სრულად, ერთ ფაილში: {full}.",
+    "report": "თუ სხვა საიტზე ბმულმა აქ მოგიყვანა, მომწერე, სად იყო:",
+    "reportSubject": "არასწორი ბმული",
+    "home": "გადადი მთავარ გვერდზე"
+  },
+  "agents": {
+    "languages": "საიტის მთავარი ენა {main}ა; {other} გვერდები {prefix} მისამართზეა.",
+    "twins": "პროექტის ყოველ გვერდს აქვს Markdown ვერსია იმავე მისამართზე, ბოლოში `.md`-ით. ყველა პროექტის გვერდი სრულად, ერთ ფაილში: {full}",
+    "allProjects": "ყველა პროექტი",
+    "pages": "გვერდები",
+    "contact": "კონტაქტი",
+    "home": "მთავარი",
+    "feed": "ბლოგის RSS არხი, ყოველი პოსტი სრული ტექსტით",
+    "install": "ინსტალაცია",
+    "source": "წყარო",
+    "full": "სრული SKILL.md",
+    "page": "გვერდი",
+    "twin": "{language} ვერსია",
+    "markdown": "Markdown"
+  }
+}

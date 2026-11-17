@@ -1,0 +1,6 @@
+{
+  "$comment": "A plain project with only a link: no page of its own, its row links straight to the address.",
+  "kind": "plain",
+  "date": "2025-11-05",
+  "link": "https://bakery.example.org"
+}

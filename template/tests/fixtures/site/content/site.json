@@ -1,0 +1,14 @@
+{
+  "$comment": "The site and its person, in no particular language. This demo person is fictional: every fact on the site is invented. README.md describes each field.",
+  "domain": "example.com",
+  "languages": ["en", "ka"],
+  "sections": { "projects": true, "work": true, "about": true, "blog": true },
+  "email": "elisabed@example.com",
+  "links": [
+    { "label": { "en": "Code", "ka": "კოდი" }, "url": "https://code.example.com/elisabed" },
+    { "label": "LinkedIn", "url": "[[LinkedIn URL]]" }
+  ],
+  "photo": null,
+  "year": 2026,
+  "colours": "wine"
+}

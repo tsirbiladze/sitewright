@@ -1,0 +1,362 @@
+/* Skills index, work, about, blog, 404. */
+
+/* ───────────── Simple pages: skills, work, about, blog ───────────── */
+
+.page-body {
+  padding-top: clamp(40px, 5vw, 64px);
+  padding-bottom: 96px;
+}
+.page-body > .prose,
+.page-body > .skill-list,
+.page-body > .post-list { max-width: 48rem; }
+.page-body .cta-block { margin-top: 56px; }
+
+
+/* The price, set like the total line of an invoice: a rule, then the package name with the terms
+   under it, and the amount. The amount is the last thing in the field and stands on its edge, the way
+   the name does on the home page: trimmed to cap height and baseline, so its baseline is the horizon.
+   What dips below the baseline (the comma, and in Georgian the დ of „-დან“) is drawn in wine below
+   the edge, with the same hard colour stop as the Georgian name (home.css). From 1000 px the amount
+   stands at the right end of the edge, beside the name and terms. Without text-box or
+   background-clip: text it sits plainly inside the field. */
+.page-head--field { padding-bottom: 20px; }
+.price {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-areas: "name" "note" "amount";
+  margin: 28px 0 0; padding-top: 14px;
+  border-top: 1px solid color-mix(in srgb, var(--foam) 30%, transparent);
+}
+.price dt {
+  grid-area: name;
+  color: var(--foam);
+  font-size: clamp(20px, 1rem + 0.55vw, 26px);
+  font-stretch: 80%; font-weight: 650; line-height: 1.2;
+}
+.price dt:lang(ka) { font-stretch: 85%; line-height: 1.4; }
+.price__note {
+  grid-area: note;
+  margin: 6px 0 22px;
+  max-width: 30em;
+  color: var(--foam-soft);
+  font-size: 16px; line-height: 1.5;
+  text-wrap: pretty;
+}
+.price__note:lang(ka) { line-height: 1.65; max-width: 38em; }
+/* Below 1000 px the amount is sized from its column, like the name on the home page, so it runs from
+   margin to margin and never past it, whatever the price: --amount-fit on the page's <main> is the
+   amount's width in em on one line, measured at build time in the fonts the page draws it with
+   (lib/fit.ts fitAmount: Archivo at width 62, weight 800; in Georgian Noto Sans Georgian at width 70). */
+.page-head--field > .wrap { container-type: inline-size; }
+.price__amount {
+  grid-area: amount;
+  justify-self: start;
+  margin: 0;
+  font-size: calc(100cqi / var(--amount-fit));
+  font-stretch: 62%; font-weight: 800; line-height: 1;
+  white-space: nowrap;
+}
+.price__amount:lang(ka) { font-stretch: 70%; }
+@supports (text-box: trim-both cap alphabetic) and ((background-clip: text) or (-webkit-background-clip: text)) {
+  .page-head--field { padding-bottom: 0; }
+  .price__amount {
+    --dip: 0.26em;
+    position: relative;
+    z-index: 1;
+    text-box: trim-both cap alphabetic;
+    padding-top: 0.06em;
+    padding-bottom: var(--dip);
+    margin-bottom: calc(-1 * var(--dip));
+    background: linear-gradient(to bottom, var(--foam) calc(100% - var(--dip) + 0.02em), var(--saperavi) 0);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+}
+@media (forced-colors: active) {
+  .price__amount { -webkit-text-fill-color: CanvasText; background: none; }
+}
+@media (min-width: 1000px) {
+  .price {
+    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-areas: "name amount" "note amount";
+    column-gap: 56px;
+  }
+  .price__note { margin: 8px 0 30px; }
+  /* From 1000 px the amount stands at the right end of the edge, at the design's size, and never takes
+     more than 60% of the column, so the terms beside it keep a readable measure. */
+  .price__amount,
+  .price__amount:lang(ka) { justify-self: end; align-self: end; font-size: min(clamp(96px, 11vw, 150px), 100cqi * 0.6 / var(--amount-fit)); }
+  /* the Georgian amount is longer, so it takes the Georgian step (as the titles do) and leaves the
+     terms beside it a readable column */
+  .price__amount:lang(ka) { font-size: min(clamp(84px, 8.4vw, 112px), 100cqi * 0.6 / var(--amount-fit)); }
+}
+/* the body starts clear of the amount's dip: the amount's size again, from the viewport */
+.page-body--work { padding-top: max(clamp(48px, 5.5vw, 72px), calc(min(100vw - 2 * var(--gutter), var(--max)) / var(--amount-fit) * 0.26 + 16px)); }
+@media (min-width: 1000px) {
+  .page-body--work { padding-top: clamp(48px, 5.5vw, 72px); }
+}
+
+/* Work: the demo invoice crop, shown before the package so "a skill" means something.
+   The frame lives with .specimen in home.css. */
+.example { margin: 0; max-width: 48rem; }
+.example .specimen { margin: 0; }
+.example figcaption {
+  max-width: 31em;
+  margin-top: 10px;
+  color: var(--ink-soft);
+  font-size: 15px; line-height: 1.5;
+  text-wrap: pretty;
+}
+.example figcaption:lang(ka) { line-height: 1.65; max-width: 38em; }
+
+/* What you get: invoice lines. A term over what it means, ruled like line items. Term and text are
+   stacked at every width, so the text gets the full reading measure (about 60–68 characters) instead of
+   the 38–43 it had beside an 11em term column. The rules run the width of the column, like the
+   picture above them; the measure is kept on the text. */
+.prose .lines { margin: 0 0 1.05em; }
+.split__main > .lines,
+.split__main > .steps { max-width: none; }
+.split__main > .lines dd,
+.split__main > .steps li > span { max-width: 34em; }
+.split__main > .lines dd:lang(ka),
+.split__main > .steps li > span:lang(ka) { max-width: 37em; }
+.lines > div {
+  padding-block: 12px 13px;
+  border-top: 1px solid var(--rule);
+}
+.lines > div:last-child { border-bottom: 1px solid var(--rule); }
+.lines dt { font-weight: 650; line-height: 1.4; }
+.lines dd { margin: 2px 0 0; color: var(--ink-soft); text-wrap: pretty; }
+@media (min-width: 640px) {
+  .lines > div { padding-block: 14px 15px; }
+}
+
+.prose ol.steps { margin: 0 0 1.05em; padding: 0; list-style: none; counter-reset: step; }
+.prose ol.steps li {
+  counter-increment: step;
+  display: grid; grid-template-columns: 2.2em minmax(0, 1fr);
+  margin-bottom: 0.7em; padding-left: 0;
+}
+.prose ol.steps li::before {
+  content: counter(step);
+  color: var(--saperavi);
+  font-stretch: 75%; font-weight: 800; font-size: 1.15em; line-height: 1.45;
+}
+
+.status-line { margin: 18px 0 0; color: var(--foam); font-size: 17px; }
+
+/* Work: the example, the next step with who it is for, the detail. Below 1000 px they follow in that
+   order, the page's own (the one call to action is on the first or second screen, and the page ends
+   on the last step): the side column's two blocks become rows of the page's grid. From 1000 px the
+   side column sits beside the reading column, level with the example, and stays in view while the
+   reading column scrolls. */
+.split { display: grid; grid-template-columns: minmax(0, 1fr); gap: 0; }
+.split > .prose { max-width: 48rem; }
+.split__side { display: contents; }
+.split__side .cta-block { margin-top: 40px; }
+.split__side .cta-block p { margin: 0 0 20px; }
+.split__side .cta-block h2 { margin-bottom: 10px; }
+.split__main { margin-top: 48px; }
+.who { margin-top: 40px; }
+.who p { margin: 0; }
+@media (min-width: 1000px) {
+  .split { grid-template-columns: minmax(0, 7fr) minmax(0, 4fr); column-gap: 96px; align-items: start; }
+  .split > .example { grid-column: 1; grid-row: 1; }
+  .split__main { grid-column: 1; grid-row: 2; }
+  .split__side { grid-column: 2; grid-row: 1 / span 2; position: sticky; top: 28px; display: flex; flex-direction: column; }
+  .split__side .cta-block { margin-top: 0; padding-top: 28px; }
+  .who { margin-top: 44px; }
+}
+
+/* About: a CV. Contact first on phones; from 1000 px it is the side column and stays in view. */
+.cv-meta { margin-top: 22px; }
+.cv { display: grid; grid-template-columns: minmax(0, 1fr); gap: 0; }
+.cv__main { max-width: 48rem; }
+.cv h2 {
+  margin: 0 0 6px;
+  color: var(--saperavi);
+  font-size: clamp(27px, 1.1rem + 1.1vw, 34px);
+  font-stretch: 75%; font-weight: 700; line-height: 1.12;
+}
+.cv__main > section { padding-top: 56px; }
+.cv__main > section:first-child { padding-top: 52px; }
+
+.cv__contact p { margin: 0 0 20px; max-width: 26em; }
+.cv__contact h2 { margin-bottom: 10px; }
+.cv-links { margin: 24px 0 0; font-size: 16px; line-height: 1.45; }
+/* each row is 44 px or more and its link fills that height */
+.cv-links > div {
+  display: grid; grid-template-columns: 5.5em minmax(0, 1fr); gap: 12px; align-items: center;
+  min-height: 45px;
+  border-top: 1px solid var(--rule);
+}
+.cv-links dt { color: var(--ink-soft); }
+.cv-links dd { margin: 0; overflow-wrap: anywhere; }
+.cv-links a { display: inline-flex; align-items: center; min-height: 44px; }
+/* The address stays whole; its only break is the <wbr> before the @, used at 320 px. */
+.cv-links .email { overflow-wrap: normal; }
+
+/* Experience and open source: dates on the left, the role on the right, ruled like a ledger */
+.cv-list { margin: 0; padding: 0; list-style: none; }
+.cv-entry {
+  display: grid; grid-template-columns: minmax(0, 1fr); gap: 2px 32px;
+  padding-block: 20px;
+  border-top: 1px solid var(--rule);
+}
+.cv-entry:first-child { border-top: 0; padding-top: 10px; }
+.cv-entry p { margin: 0; max-width: 34em; }
+.cv-entry__when {
+  color: var(--ink-soft); font-size: 15px; line-height: 1.6;
+  font-variant-numeric: tabular-nums;
+}
+.cv-entry h3 {
+  margin: 0;
+  font-size: 22px; font-stretch: 82%; font-weight: 700; line-height: 1.3;
+}
+.cv-entry h3 a {
+  /* a 44 px target that doesn't move the heading (as .h-anchor) */
+  display: inline-block;
+  padding-block: max(0px, calc((44px - 1lh) / 2));
+  margin-block: min(0px, calc((1lh - 44px) / 2));
+  text-decoration-thickness: 1px;
+}
+.cv-entry__where { color: var(--ink-soft); }
+.cv-entry__where + p { margin-top: 8px; }
+.cv-entry__stack { margin-top: 8px; color: var(--ink-soft); font-size: 15px; line-height: 1.5; }
+/* An entry the person has not written yet: one dashed block, its lines set as the real ones will be. The dash
+   is an outline outside the entry, so its text starts on the column's edge, where the real entries
+   start. */
+.cv-entry--ph,
+.cv-entry--ph:first-child {
+  margin-block: 26px 38px; padding: 0;
+  border: 0; border-radius: 8px;
+  outline: 1.5px dashed var(--ink-soft); outline-offset: 12px;
+  color: var(--ink-soft);
+}
+.cv-entry--ph:first-child { margin-top: 24px; }
+.cv-entry--ph h3 { color: var(--ink); }
+.cv-entry--ph .cv-entry__where + p { margin-top: 6px; }
+
+.cv-stack { margin: 10px 0 0; }
+.cv-stack > div {
+  display: grid; grid-template-columns: minmax(0, 1fr); gap: 2px 32px;
+  padding-block: 12px;
+  border-top: 1px solid var(--rule);
+}
+.cv-stack > div:first-child { border-top: 0; }
+.cv-stack dt { font-weight: 650; }
+.cv-stack dd { margin: 0; }
+.cv-stack--ph {
+  margin-top: 24px;
+  border-radius: 8px;
+  outline: 1.5px dashed var(--ink-soft); outline-offset: 12px;
+}
+.cv-stack--ph dd { color: var(--ink-soft); }
+
+@media (min-width: 640px) {
+  .cv-entry,
+  .cv-stack > div { grid-template-columns: 8.5em minmax(0, 1fr); }
+  .cv-entry__when { padding-top: 0.25em; }
+}
+
+@media (min-width: 1000px) {
+  /* The contact column never gets narrower than 21rem, so the email address fits on one line
+     at 1000–1150 px, where 4fr alone left it about 200 px. */
+  .cv {
+    grid-template-columns: minmax(0, 7fr) minmax(21rem, 4fr);
+    column-gap: 96px; align-items: start;
+  }
+  .cv__main { grid-column: 1; grid-row: 1; }
+  .cv__main > section:first-child { padding-top: 0; }
+  .cv__contact { grid-column: 2; grid-row: 1; position: sticky; top: 28px; }
+}
+/* the contact block opens the body: no rule or gap above it, so its heading lines up with Experience */
+.page-body .cv__contact { margin-top: 0; padding-top: 0; border-top: 0; }
+
+/* Printed, the CV is a plain sheet: no wine field, no header, no footer, no button. The name is
+   black and stands on a wine rule, the horizon in ink. */
+@media print {
+  body:has(.cv) .site-header,
+  body:has(.cv) .skip,
+  body:has(.cv) .site-footer,
+  body:has(.cv) .cta { display: none; }
+  body:has(.cv) { background: #fff; color: #000; }
+  body:has(.cv) .hero { padding-top: 6pt; background: none; color: #000; border-bottom: 2pt solid var(--saperavi); }
+  body:has(.cv) .name { font-size: 40pt; }
+  body:has(.cv) .page-intro { padding-top: 14pt; }
+  body:has(.cv) .meta dt { color: #000; }
+  body:has(.cv) .cv { display: block; }
+  body:has(.cv) .cv__contact { position: static; border-top: 0; padding-top: 0; }
+  body:has(.cv) .page-body { padding-block: 16px; }
+  /* A sheet, not a screen: a heading stays with what follows it, no entry or row is cut in two,
+     the gaps are a sheet's, and a link's address is printed after it. */
+  body:has(.cv) .cv :is(h2, h3) { break-after: avoid; }
+  body:has(.cv) :is(.cv-entry, .cv-stack > div, .cv-links > div) { break-inside: avoid; }
+  body:has(.cv) .cv__main > section,
+  body:has(.cv) .cv__main > section:first-child { padding-top: 20pt; }
+  body:has(.cv) .cv-links > div { min-height: 0; padding-block: 3pt; }
+  body:has(.cv) .cv-links a { min-height: 0; }
+  body:has(.cv) .cv-stack > div { padding-block: 4pt; }
+  body:has(.cv) .cv-entry a[href^="http"]::after { content: " (" attr(href) ")"; }
+  /* a link into the site prints as plain text: on paper an underline promises an address */
+  body:has(.cv) .cv-entry a:not([href^="http"]) { color: inherit; text-decoration: none; }
+}
+/* Text drawn with a clipped background (the edge titles, the price, the Georgian name) would print
+   as nothing where backgrounds are not printed: on paper it is plain text in its own colour. */
+@media print {
+  .title--edge, .price__amount, .name:lang(ka) { background: none; -webkit-text-fill-color: currentColor; }
+}
+
+/* Blog */
+.post-list { margin: 0; padding: 0; list-style: none; }
+.post-list li { padding-block: 22px; border-top: 1px solid var(--rule); }
+.post-list li:first-child { border-top: 0; padding-top: 0; }
+.post-list h2 { margin: 0; font-size: clamp(24px, 1rem + 1vw, 30px); font-stretch: 80%; font-weight: 700; line-height: 1.3; }
+.post-list h2 a { text-decoration: none; }
+.post-list h2 a:hover { text-decoration: underline; }
+.post-list p { margin: 6px 0 0; max-width: 37em; }
+.post-list .post-meta { margin: 0 0 4px; }
+.post-meta {
+  display: flex; flex-wrap: wrap; gap: 0 18px;
+  margin: 0;
+  color: var(--ink-soft); font-size: 15px;
+}
+.page-intro .post-meta { margin-top: 14px; }
+
+/* Empty blog: say when, and where to go meanwhile */
+.empty { max-width: 37em; }
+.empty p { margin: 0; }
+.empty p:first-child { font-size: clamp(21px, 1.1rem + 0.6vw, 25px); font-stretch: 85%; font-weight: 650; line-height: 1.45; }
+.empty p + p { margin-top: 10px; color: var(--ink-soft); }
+
+/* Post: the reading column, then a way back, then the one CTA */
+.post .post-body { max-width: 48rem; }
+.post-body h2 { scroll-margin-top: 24px; }
+.post-body h3 { margin-bottom: 0.4em; }
+.post-body h3:lang(ka) { line-height: 1.4; font-size: 21px; }
+.post-body ol { margin: 0 0 1.05em; padding-left: 1.4em; }
+.post-body ol li::marker { color: var(--saperavi); font-weight: 650; }
+.post-body blockquote {
+  margin: 1.4em 0; padding: 2px 0 2px 20px;
+  border-left: 3px solid var(--saperavi);
+  color: var(--ink-soft);
+}
+.post-body blockquote p:last-child { margin-bottom: 0; }
+.post-body pre {
+  margin: 1.4em 0; padding: 14px 18px;
+  overflow-x: auto;
+  border-radius: 8px;
+  background: var(--code-bg);
+  font-size: 15px; line-height: 1.55;
+}
+.post-body pre code { padding: 0; background: none; font-size: inherit; }
+.post-body img { border: 1px solid var(--rule); border-radius: 8px; background: #fff; }
+.post-body hr { margin: 2.4em 0; border: 0; border-top: 1px solid var(--rule); }
+.post-back { margin: 40px 0 0; }
+.post-back a { display: inline-flex; align-items: center; min-height: 44px; }
+.post .cta-block,
+.blog-index .cta-block { margin-top: 48px; }
+.blog-index .cta-block p { margin: 0 0 20px; }
+.blog-index .cta-block h2 { margin-bottom: 10px; }
+

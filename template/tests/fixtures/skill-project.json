@@ -1,0 +1,11 @@
+{
+  "$comment": "An agent skill for the tests: its text is the fixture in tests/fixtures/skill, standing in for a fetch from example/fixture.",
+  "kind": "skill",
+  "repo": "example/fixture",
+  "ref": "v0.2.0",
+  "install": [
+    { "id": "skill", "label": { "en": "Agent skill", "ka": "აგენტის სკილი" }, "short": { "ka": "სკილი" }, "commands": ["npx skills@latest add {repo}"], "note": { "en": "Works with most coding agents.", "ka": "მუშაობს კოდის აგენტების უმეტესობაში." } },
+    { "id": "claude-ai", "label": { "en": "claude.ai", "ka": "claude.ai" }, "download": { "asset": "fixture-skill.zip", "label": { "en": "Download the zip", "ka": "zip-ის ჩამოტვირთვა" } }, "note": { "en": "Upload it under Settings.", "ka": "ატვირთე პარამეტრებში." } },
+    { "id": "mcp", "label": { "en": "MCP", "ka": "MCP" }, "language": "json", "commands": ["{\n  \"mcpServers\": { \"fixture\": { \"command\": \"npx\" } }\n}"], "note": { "en": "Add it to your MCP client’s config.", "ka": "დაამატე შენი MCP კლიენტის კონფიგურაციაში." } }
+  ]
+}

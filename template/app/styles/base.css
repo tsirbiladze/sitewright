@@ -1,0 +1,137 @@
+/* Tokens, base elements, the one call to action, motion. */
+
+/* Saperavi: six colours, one family per script, one hard edge (the horizon). The colours that follow
+   content/site.json "colours" (the field, its deeper steps, the accent, the light text on the field)
+   are set again on <html> by the root layouts from lib/colours.ts; these are the wine, the default.
+   The neutral ground, ink and lines are the same in every palette. */
+
+:root {
+  --saperavi: #470b2d;
+  --saperavi-deep: #2e0519;
+  --must: #d21d79;
+  --foam: #f8eef3;
+  --mist: #f3f5f8;
+  --ink: #1e2531;
+
+  /* derived */
+  --must-press: #b8186a;
+  --foam-soft: #e0c4d1;
+  --ink-soft: #4f5867;
+  --rule: #d6dce4;
+  --well: #210311;
+  --code-bg: #e4e8ee;
+  --slot: #e8ecf1;
+  --tab-line: color-mix(in srgb, var(--foam) 16%, transparent);
+
+  --gutter: clamp(20px, 5vw, 56px);
+  --max: 1200px;
+  --overlap: 104px;
+
+  --sans: var(--font-archivo), var(--font-georgian), system-ui, sans-serif;
+  --mono: var(--font-mono, ui-monospace), ui-monospace, "SFMono-Regular", Menlo, monospace;
+  --track-display: -0.012em;
+  --body-lh: 1.65;
+}
+
+/* Georgian: Noto Sans Georgian for everything (its own Latin for product names),
+   never letter-spaced, more leading. */
+:root:lang(ka) {
+  --sans: var(--font-georgian), var(--font-archivo), system-ui, sans-serif;
+  --track-display: normal;
+  --body-lh: 1.75;
+}
+
+*,
+*::before,
+*::after { box-sizing: border-box; }
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  scroll-padding-top: 20px;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  background: var(--mist);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 17px;
+  font-stretch: 100%;
+  font-weight: 400;
+  line-height: var(--body-lh);
+  overflow-wrap: break-word;
+}
+
+@media (min-width: 760px) {
+  body { font-size: 18px; }
+  :root:lang(ka) body { font-size: 17px; }
+}
+
+img { display: block; max-width: 100%; height: auto; }
+
+a { color: var(--saperavi); text-decoration-thickness: 1px; text-underline-offset: 0.2em; }
+a:hover { text-decoration-thickness: 2px; }
+
+::selection { background: var(--must); color: #fff; }
+
+:focus-visible {
+  outline: 3px solid var(--must);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+/* On the wine grounds Must is only 3.1:1 against the field, so the ring is foam there (13.7:1). */
+:is(.site-header, .hero, .page-head, .install__panel, .site-footer) :focus-visible { outline-color: var(--foam); }
+
+.sr-only {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+}
+
+.skip {
+  position: absolute; left: 12px; top: 12px; z-index: 10;
+  padding: 10px 16px; border-radius: 8px;
+  background: var(--foam); color: var(--saperavi); font-weight: 600;
+  transform: translateY(-160%);
+}
+.skip:focus { transform: none; }
+
+.wrap {
+  width: 100%;
+  max-width: calc(var(--max) + 2 * var(--gutter));
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+main { flex: 1 0 auto; }
+
+/* The one call to action */
+.cta {
+  display: inline-flex; align-items: center;
+  min-height: 52px; padding: 0 24px;
+  border-radius: 8px;
+  background: var(--must);
+  color: #fff;
+  font-size: 18px; font-weight: 650; font-stretch: 92%;
+  text-decoration: none;
+}
+.cta:hover { background: var(--must-press); }
+.cta:lang(ka) { font-stretch: 90%; font-size: 17px; }
+/* While the email address is a [[placeholder]], the button's words stand in the dashed box and link nowhere. */
+.cta--ph,
+.cta--ph:hover { background: none; color: var(--ink); border: 2px dashed var(--ink-soft); }
+
+
+/* ───────────── Motion: only in answer to an action ───────────── */
+
+@media (prefers-reduced-motion: no-preference) {
+  html { scroll-behavior: smooth; }
+  .tab, .copy, .cta, .btn-ghost { transition: background-color 0.15s ease, color 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease; }
+}
+
+/* ₾ in a face that has it (components/Lari.tsx) */
+.lari { font-family: var(--font-georgian), sans-serif; }

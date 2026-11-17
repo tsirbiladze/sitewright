@@ -1,0 +1,15 @@
+{
+  "$comment": "German interface words, supplied by the tests to prove a second Latin-script language works with one more file.",
+  "language": { "name": "Deutsch", "inThisLanguage": "Auf Deutsch" },
+  "locale": "de_DE",
+  "date": { "format": "{d}. {month} {y}", "months": ["Jan.", "Feb.", "März", "Apr.", "Mai", "Juni", "Juli", "Aug.", "Sept.", "Okt.", "Nov.", "Dez."] },
+  "wordsPerMinute": 200,
+  "chrome": { "skip": "Zum Inhalt springen", "nav": "Hauptmenü", "breadcrumb": "Brotkrumen", "email": "E-Mail", "forAgents": "Für Agenten", "photo": { "label": "Platz für ein Foto", "title": "[[Foto]]", "note": "Hier kommt ein Foto hin" } },
+  "project": { "category": "Kategorie", "status": "Status", "version": "Version", "license": "Lizenz", "updated": "Aktualisiert", "changelog": "Änderungen", "onThisPage": "Auf dieser Seite", "formats": "Formate", "link": "Adresse", "statuses": { "stable": "Stabil", "beta": "Beta", "experimental": "Experimentell" }, "changelogElsewhere": "Was sich in jeder Version geändert hat, steht auf Englisch in {file}.", "table": "Tabelle", "fullSize": "In voller Größe öffnen" },
+  "install": { "heading": "Installation", "copy": "Kopieren", "copied": "Kopiert", "full": "Ganze SKILL.md lesen", "source": "Quelle", "config": "Konfiguration (JSON)", "markdownView": "Als Markdown ansehen", "markdownCopy": "Als Markdown kopieren", "markdownFailed": "Kopieren fehlgeschlagen. Öffne stattdessen das Markdown." },
+  "projectsIndex": { "published": "Veröffentlicht", "category": "Kategorie", "categories": "Kategorien", "latest": "Zuletzt aktualisiert", "agents": "Agenten lesen diese Liste als Markdown unter {link}." },
+  "releases": { "one": "Neueste Version", "other": "Neueste Versionen" },
+  "blog": { "minutes": { "one": "{n} Minute Lesezeit", "other": "{n} Minuten Lesezeit" }, "draft": "Entwurf: nicht veröffentlicht", "all": "Alle Beiträge", "feed": "Neue Beiträge per RSS:" },
+  "notFound": { "title": "Seite nicht gefunden", "lede": "Unter dieser Adresse gibt es nichts. Der Link ist vielleicht veraltet, oder die Adresse hat einen Tippfehler.", "guess": "Meintest du", "guessEnd": "?", "heading": "Was es hier gibt", "agents": "Ein Verzeichnis dieser Seite für KI-Agenten. Die Projektseiten vollständig in einer Datei: {full}.", "report": "Wenn dich ein Link auf einer anderen Seite hierher gebracht hat, schreib mir, wo er war:", "reportSubject": "Kaputter Link", "home": "Zur Startseite" },
+  "agents": { "languages": "{main} ist die Hauptsprache; {other} Seiten liegen unter {prefix}.", "twins": "Jede Projektseite hat einen Markdown-Zwilling unter derselben Adresse plus `.md`. Diese Datei mit jeder Projektseite vollständig: {full}", "allProjects": "Alle Projekte", "pages": "Seiten", "contact": "Kontakt", "home": "Startseite", "feed": "der RSS-Feed des Blogs, jeder Beitrag vollständig", "install": "Installation", "source": "Quelle", "full": "Ganze SKILL.md", "page": "Seite", "twin": "{language} Version", "markdown": "Markdown" }
+}

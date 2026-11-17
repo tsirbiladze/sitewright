@@ -1,0 +1,13 @@
+{
+  "title": "Zusammenarbeit",
+  "description": "Eine kleine, schnelle Website für dein Geschäft. Pakete ab {price}.",
+  "lede": "Ich baue kleine Websites für Läden, Cafés und Ateliers: wenige Seiten, die schnell laden und auf dem Telefon gut lesbar sind.",
+  "price": "1.500 ₾",
+  "package": "Eine Website für dein Geschäft",
+  "amount": "Ab {price}",
+  "priceNote": "Ein fester Preis, vereinbart, bevor ich anfange.",
+  "get": { "heading": "Was du bekommst", "items": [{ "term": "Eine Website in deinen Worten", "text": "Bis zu fünf Seiten." }] },
+  "how": { "heading": "Wie es abläuft", "steps": ["Du schreibst mir, was du machst.", "Ich antworte mit einem festen Preis."] },
+  "contact": { "heading": "Erzähl mir von deinem Geschäft", "text": "Was machst du, und was soll deine Website sagen?", "button": "Schreib mir zu deiner Website", "subject": "Eine Website für mein Geschäft" },
+  "teaser": { "text": "Ich baue kleine, schnelle Websites für Geschäfte.", "button": "Pakete ab {price}" }
+}

@@ -1,0 +1,11 @@
+# Not needed to build the site: the agent setup, what the build fetches or makes itself, local files.
+.agents/
+.claude/
+AGENTS.md
+CLAUDE.md
+.content/
+public/skills/
+.next/
+node_modules/
+*.tsbuildinfo
+.env*

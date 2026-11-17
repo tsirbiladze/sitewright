@@ -1,0 +1,47 @@
+{
+  "title": "Work with me",
+  "description": "A small, fast website for your business, written in your words. Packages from {price}.",
+  "lede": "I build small websites for shops, cafés and studios: a few pages that load fast, read well on a phone and say plainly what you do.",
+  "price": "1,500 ₾",
+  "package": "A site for your business",
+  "amount": "From {price}",
+  "priceNote": "A fixed price, agreed before I start. It depends on how many pages and languages the site has.",
+  "example": {
+    "project": "menu-cards",
+    "caption": "What a small tool does: {project} turned a café’s spreadsheet into this menu. The café and its menu are fictional."
+  },
+  "get": {
+    "heading": "What you get",
+    "items": [
+      { "term": "A site in your words", "text": "Up to five pages: what you do, what it costs and where to find you." },
+      { "term": "Ready for phones", "text": "Every page reads well on a small screen and loads in a moment." },
+      { "term": "One or two languages", "text": "Georgian and English, or whichever two languages your customers read." },
+      { "term": "An address of your own", "text": "The site runs on your own domain, with its certificate in place." },
+      { "term": "A month of changes", "text": "For a month after launch, I change whatever doesn’t read right." }
+    ]
+  },
+  "how": {
+    "heading": "How it goes",
+    "steps": [
+      "You tell me what you do and send what you already have: a logo, photos, a price list.",
+      "I reply with the pages I would make and a fixed price.",
+      "I build the site and send you a preview to read on your phone.",
+      "When you are happy with it, it goes live on your address."
+    ]
+  },
+  "who": {
+    "heading": "Who it’s for",
+    "text": "Small businesses that need a clear site more than a big one: a shop, a café, a studio, a workshop."
+  },
+  "contact": {
+    "heading": "Tell me about your business",
+    "text": "What do you do, and what should your site say? I reply with the pages I would make and a fixed price.",
+    "button": "Email me about your site",
+    "subject": "A website for my business",
+    "body": "What we do:\n\nWhat the site should say:\n\n"
+  },
+  "teaser": {
+    "text": "I build small, fast websites for businesses, in one or two languages.",
+    "button": "See packages from {price}"
+  }
+}

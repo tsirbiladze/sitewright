@@ -1,0 +1,43 @@
+# Install, typecheck, test and build on every push to main and every pull request. Each step works on
+# a fresh checkout (tests/ci.test.ts keeps it that way).
+# Actions are pinned to commit SHAs (tags can move); each was released at least 14 days before it was pinned.
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: pnpm/action-setup@ea17c68df8912ef543352723c149a84f56e3d413 # v6.1.0, reads packageManager
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      # `next typegen` writes the route types (PageProps, RouteContext) first, so this needs no build.
+      - run: pnpm typecheck
+      # No network and no build: fixtures, a local stand-in for GitHub, the committed fonts.
+      - run: pnpm test
+      # .next/cache also keeps the last fetch of the skill docs, so a build survives GitHub's raw
+      # file host being down (scripts/fetch-skills.mjs).
+      - uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: .next/cache
+          key: next-${{ hashFiles('pnpm-lock.yaml') }}-${{ hashFiles('content/**', 'app/**', 'components/**', 'lib/**') }}
+          restore-keys: |
+            next-${{ hashFiles('pnpm-lock.yaml') }}-
+            next-
+      - run: pnpm build

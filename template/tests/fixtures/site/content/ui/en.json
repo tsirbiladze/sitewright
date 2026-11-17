@@ -1,0 +1,84 @@
+{
+  "$comment": "Interface words for English pages: the same for every person. A new language is one more file like this one (README.md, 'Adding a language').",
+  "language": { "name": "English", "inThisLanguage": "In English" },
+  "locale": "en_US",
+  "date": {
+    "format": "{d} {month} {y}",
+    "months": ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+  },
+  "wordsPerMinute": 220,
+  "chrome": {
+    "skip": "Skip to content",
+    "nav": "Main",
+    "breadcrumb": "Breadcrumb",
+    "email": "Email",
+    "forAgents": "For agents",
+    "photo": { "label": "Photo placeholder", "title": "[[photo]]", "note": "A photo goes here" }
+  },
+  "project": {
+    "category": "Category",
+    "status": "Status",
+    "version": "Version",
+    "license": "License",
+    "updated": "Updated",
+    "changelog": "Changelog",
+    "onThisPage": "On this page",
+    "formats": "Formats",
+    "link": "Address",
+    "statuses": { "stable": "Stable", "beta": "Beta", "experimental": "Experimental" },
+    "changelogElsewhere": "What changed in each version is written in English in {file}.",
+    "table": "Table",
+    "fullSize": "Open full size"
+  },
+  "install": {
+    "heading": "Install",
+    "copy": "Copy",
+    "copied": "Copied",
+    "full": "Read full SKILL.md",
+    "source": "Source",
+    "config": "config (JSON)",
+    "markdownView": "View as Markdown",
+    "markdownCopy": "Copy as Markdown",
+    "markdownFailed": "Copy failed. Open the Markdown instead."
+  },
+  "projectsIndex": {
+    "published": "Published",
+    "category": "Category",
+    "categories": "Categories",
+    "latest": "Latest update",
+    "agents": "Agents can read this list as Markdown at {link}."
+  },
+  "releases": { "one": "Latest release", "other": "Latest releases" },
+  "blog": {
+    "minutes": { "one": "{n} min read", "other": "{n} min read" },
+    "draft": "Draft: not published",
+    "all": "All posts",
+    "feed": "New posts by RSS:"
+  },
+  "notFound": {
+    "title": "Page not found",
+    "lede": "There is nothing at this address. The link may be out of date, or the address may have a typo.",
+    "guess": "Did you mean",
+    "guessEnd": "?",
+    "heading": "What is on this site",
+    "agents": "An index of this site for AI agents. The project pages in full, in one file: {full}.",
+    "report": "If a link on another site brought you here, tell me where it was:",
+    "reportSubject": "Broken link",
+    "home": "Go to the home page"
+  },
+  "agents": {
+    "languages": "{main} is the main language; {other} pages live under {prefix}.",
+    "twins": "Every project page has a Markdown twin at the same address plus `.md`. This file with every project page in full: {full}",
+    "allProjects": "All projects",
+    "pages": "Pages",
+    "contact": "Contact",
+    "home": "Home",
+    "feed": "the blog’s RSS feed, every post in full",
+    "install": "Install",
+    "source": "Source",
+    "full": "Full SKILL.md",
+    "page": "Page",
+    "twin": "{language} version",
+    "markdown": "Markdown"
+  }
+}

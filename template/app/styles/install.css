@@ -1,0 +1,298 @@
+/* Commands, copy buttons and the install box that straddles the horizon. */
+
+/* ───────────── Commands and copy buttons ───────────── */
+
+.cmd { display: flex; align-items: flex-start; gap: 8px; }
+.cmd pre {
+  flex: 1 1 auto; min-width: 0;
+  margin: 0;
+  overflow-x: auto;
+  padding: 11px 14px;
+  border-radius: 8px;
+  font-family: var(--mono); font-size: 15px; line-height: 1.55;
+}
+.cmd code { font-family: inherit; }
+
+.copy {
+  flex: none;
+  display: inline-flex; align-items: center; justify-content: center; gap: 7px;
+  min-height: 46px; min-width: 46px; padding: 0 14px;
+  border-radius: 8px;
+  font: inherit; font-size: 15px; font-weight: 550;
+  cursor: pointer;
+}
+.copy svg { width: 18px; height: 18px; flex: none; }
+.cmd { position: relative; }
+.copy .i-check { display: none; }
+.copy.is-copied .i-check { display: block; }
+.copy.is-copied .i-copy { display: none; }
+.copy:lang(ka) { font-stretch: 88%; }
+/* Where there is room beside the command, the button keeps the width of its longer label ("Copied",
+   „დაკოპირდა“), so the well doesn't change width, and a wrapped command doesn't re-wrap, when it is
+   pressed. */
+@media (min-width: 410px) {
+  .copy { min-width: 6.4em; }
+}
+@media (min-width: 480px) {
+  .copy:lang(ka) { min-width: 9.6em; }
+}
+@media (min-width: 600px) {
+  .copy { min-width: 7em; }
+}
+
+@media (max-width: 599px) {
+  .cmd pre { padding-inline: 12px; font-size: 14.5px; }
+  .copy { padding: 0 11px; gap: 6px; }
+  .copy svg { width: 16px; height: 16px; }
+}
+
+/* A one-line command that wraps instead of scrolling, so a phone shows all of it. Continuation
+   lines hang 2ch in, so a wrapped command doesn't read as two commands. */
+.cmd--wrap pre {
+  overflow-x: visible;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  padding-left: calc(14px + 2ch);
+  text-indent: -2ch;
+}
+/* an argument moves to the next line whole before it breaks inside (components/InstallBox.tsx) */
+.cmd--wrap .arg { display: inline-block; text-indent: 0; }
+@media (max-width: 599px) {
+  .cmd--wrap pre { padding-left: calc(10px + 2ch); padding-right: 10px; font-size: 14px; }
+  /* a block of several lines (the MCP config) takes the full width, with its copy button under it,
+     so a phone shows the lines whole instead of a narrow scroller beside a tall empty column */
+  .cmd:has(> pre[tabindex]) { flex-direction: column; align-items: stretch; }
+  .cmd:has(> pre[tabindex]) .copy { align-self: flex-end; }
+}
+/* Phones: the command takes the full width and the copy button goes under it. Beside the button the
+   well was only a few pixels wider than the path, so pressing "Copy" (the label grows to "Copied")
+   broke the path at the slash and moved the page. */
+@media (max-width: 409px) {
+  .cmd--wrap { flex-wrap: wrap; justify-content: flex-end; }
+  .cmd--wrap pre { flex-basis: 100%; }
+}
+/* Georgian: „კოპირება“ is twice as wide as "Copy", so the command takes the full width up to 480 px. */
+@media (max-width: 479px) {
+  .cmd--wrap:lang(ka) { flex-wrap: wrap; justify-content: flex-end; }
+  .cmd--wrap:lang(ka) pre { flex-basis: 100%; }
+}
+
+/* on mist (home) */
+.cmd--light pre { background: #fff; border: 1px solid var(--rule); color: var(--ink); }
+.cmd--light .copy { background: #fff; border: 1px solid var(--rule); color: var(--ink); }
+.cmd--light .copy:hover { border-color: var(--ink-soft); }
+.cmd--light .copy.is-copied { background: var(--saperavi); border-color: var(--saperavi); color: var(--foam); }
+
+/* ───────────── Install box (straddles the horizon) ───────────── */
+
+.install { position: relative; margin-top: calc(-1 * var(--overlap)); }
+
+.install__panel {
+  max-width: 48rem;
+  padding: 16px 16px 18px;
+  border-radius: 14px;
+  background: var(--saperavi-deep);
+  color: var(--foam);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--foam) 10%, transparent);
+}
+@media (min-width: 760px) {
+  .install__panel { padding: 18px 20px 20px; }
+}
+
+.install h2 {
+  margin: 0 0 6px;
+  font-size: 20px; font-stretch: 80%; font-weight: 700; line-height: 1.2;
+}
+
+/* Underline tabs on one row at every width. If a language or a narrow phone needs
+   more room, the row scrolls and fades at the edge that has more. Every tab is at least 44 px wide:
+   "CLI" and "MCP" are only 25–39 px of text, so the tabs carry the space between labels as their
+   own padding (8 + 6 + 8 = the 22 px the gap used to be, the label's own 2 px included). The bar that marks the selected tab is
+   drawn under its label, so it stays the underline of a word. */
+.tabs {
+  display: flex; flex-wrap: nowrap; gap: 0 6px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  border-bottom: 1px solid var(--tab-line);
+}
+.tabs::-webkit-scrollbar { display: none; }
+.tabs.fade-end { mask-image: linear-gradient(to right, #000 calc(100% - 44px), transparent); }
+.tabs.fade-start { mask-image: linear-gradient(to left, #000 calc(100% - 44px), transparent); }
+.tabs.fade-start.fade-end { mask-image: linear-gradient(to right, transparent, #000 44px, #000 calc(100% - 44px), transparent); }
+
+.tab {
+  flex: none;
+  appearance: none; border: 0; margin: 0;
+  min-height: 46px; min-width: 44px; padding: 0 6px;
+  background: transparent;
+  color: var(--foam-soft);
+  font: inherit; font-size: 16px; font-weight: 550; font-stretch: 96%;
+  white-space: nowrap;
+  cursor: pointer;
+  position: relative;
+}
+.tab__label { display: inline-block; padding-inline: 2px; line-height: 46px; }
+.tab:hover { color: var(--foam); }
+.tab:hover .tab__label { box-shadow: inset 0 -3px 0 color-mix(in srgb, var(--foam) 30%, transparent); }
+.tab[aria-selected="true"] { color: var(--foam); }
+.tab[aria-selected="true"] .tab__label { box-shadow: inset 0 -3px 0 var(--must); }
+/* The focus ring is drawn outside the tab, like every other ring, so it covers neither the selected
+   tab's bar nor the label's first letter. A row that scrolls clips what is outside it (the script
+   marks that row with .fade-start / .fade-end), so only there the ring is drawn inside. */
+.tabs:not(.fade-start):not(.fade-end) { overflow: visible; }
+.tab:focus-visible { outline-offset: 2px; border-radius: 6px; }
+.tabs:is(.fade-start, .fade-end) .tab:focus-visible { outline-offset: -3px; }
+/* Below 430 px the tabs meet edge to edge, so a ring around the tab would end on the next label's
+   letters. There the ring is drawn around the label, the same 2 px out. It is the outline of a
+   pseudo-element the size of the label: the label keeps square corners, so the selected bar stays
+   straight, and an outline (unlike a box) adds nothing to the row's scroll width, which the script
+   reads to tell whether the row scrolls. */
+@media (max-width: 429px) {
+  .tabs:not(.fade-start):not(.fade-end) .tab:focus-visible { outline: 0; }
+  .tabs:not(.fade-start):not(.fade-end) .tab:focus-visible .tab__label { position: relative; }
+  .tabs:not(.fade-start):not(.fade-end) .tab:focus-visible .tab__label::after {
+    content: ""; position: absolute; inset: 0;
+    border-radius: 1px;
+    outline: 3px solid var(--foam); outline-offset: 2px;
+    pointer-events: none;
+  }
+}
+.tab:lang(ka) { font-stretch: 86%; }
+/* the first label starts on the panel's left edge, under "Install" */
+.tab:first-child { padding-left: 0; }
+
+/* Phones: the install box bleeds 6 px past the text column (like a code block) and
+   the tabs narrow on the width axis, so all five fit one row at 390 in both languages.
+   Below that the row scrolls with the edge fade. */
+@media (max-width: 599px) {
+  .install.wrap { padding-inline: 14px; }
+  .install__panel { padding: 14px 14px 16px; }
+  .install__links { padding-inline: 6px; }
+  .tab { font-size: 15px; font-stretch: 86%; }
+  .tab:lang(ka) { font-size: 14px; font-stretch: 76%; }
+}
+/* Below 430 px the tabs share the whole row: no gaps between them, and each takes a part of the spare
+   width, so every pixel of the row selects a tab and "CLI" and "MCP" reach 44 px. The first and last
+   tabs take half a part and keep their labels on the row's two edges, so the words are evenly
+   spaced. (From 430 px the desktop row fits both languages.) */
+@media (max-width: 429px) {
+  .tabs { gap: 0; }
+  .tab { flex: 1 0 auto; padding: 0; }
+  .tab:first-child,
+  .tab:last-child { flex-grow: 0.5; }
+  .tab:first-child { text-align: start; }
+  .tab:last-child { text-align: end; }
+}
+@media (max-width: 379px) {
+  .tab { font-size: 14px; font-stretch: 80%; }
+}
+@media (max-width: 349px) {
+  /* at 320 px five tabs of 44 px or more fit the row only a step narrower on the width axis */
+  .tab { font-stretch: 74%; }
+}
+@media (max-width: 339px) {
+  /* the box gives its side padding to the row: "Install" and the tabs start on the page's text
+     column (20 px), and the row is 16 px wider */
+  .install.wrap { padding-inline: 8px; }
+  .install__panel { padding-inline: 12px; }
+  .install__links { padding-inline: 12px; }
+}
+@media (max-width: 389px) {
+  .tab:lang(ka) { font-stretch: 74%; }
+  /* "აგენტის სკილი" shows as "სკილი", so the Georgian row fits at 320 without scrolling; the
+     hidden start stays in the tab's name */
+  .tab__start {
+    position: absolute;
+    width: 1px; height: 1px;
+    overflow: hidden; clip-path: inset(50%);
+    white-space: nowrap;
+  }
+}
+
+.panel { margin-top: 16px; }
+.panel[hidden] { display: none; }
+/* the one-command panels are the same height, so the page below doesn't move from tab to tab
+   (Georgian notes have taller lines) */
+@media (min-width: 600px) {
+  .install .panel { min-height: 6.5rem; }
+  .install .panel:lang(ka) { min-height: 6.85rem; }
+}
+.panel .cmd + .cmd { margin-top: 8px; }
+
+.install .cmd pre {
+  background: var(--well);
+  color: var(--foam);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--foam) 12%, transparent);
+}
+.install .copy {
+  background: transparent;
+  color: var(--foam);
+  border: 1px solid color-mix(in srgb, var(--foam) 32%, transparent);
+}
+.install .copy:hover { border-color: var(--foam); }
+.install .copy.is-copied { background: var(--foam); color: var(--saperavi-deep); border-color: var(--foam); }
+
+.note {
+  margin: 12px 0 0;
+  max-width: 44em;
+  color: var(--foam-soft);
+  font-size: 15px; line-height: 1.55;
+}
+.note:lang(ka) { line-height: 1.7; }
+
+.btn-ghost {
+  display: inline-flex; align-items: center; gap: 8px;
+  min-height: 46px; padding: 0 18px;
+  border-radius: 8px;
+  border: 1.5px solid var(--foam);
+  color: var(--foam);
+  font-weight: 600; font-size: 16px;
+  text-decoration: none;
+}
+.btn-ghost:hover { background: color-mix(in srgb, var(--foam) 10%, transparent); }
+.btn-ghost svg { width: 18px; height: 18px; }
+
+.install__links {
+  display: flex; flex-wrap: wrap; gap: 0 32px;
+  margin: 12px 0 0; padding: 0; list-style: none;
+  font-size: 16px;
+}
+.install__links li { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; }
+.install__links a { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; }
+.install__links svg { width: 18px; height: 18px; flex: none; color: var(--ink-soft); }
+/* From 600 px the four links are two rows of two, people's first (SKILL.md, source) and agents'
+   second (the two Markdown links), until all four fit one row: 1176 px in English, where the first
+   column reaches its full width, and 1160 px in Georgian, where the longer labels fit the page. One
+   row there keeps the article's first paragraph on a laptop's first screen. */
+@media (min-width: 600px) and (max-width: 1175px) {
+  .install__links { display: grid; grid-template-columns: repeat(2, max-content); column-gap: 40px; }
+}
+@media (min-width: 1160px) {
+  .install__links:lang(ka) { display: flex; column-gap: 32px; }
+}
+/* From 1080 px the panel is as wide as the first column of the head above it and the article below
+   it (chrome.css, article.css), also where that column is narrower than 48rem. */
+@media (min-width: 1080px) {
+  .install__panel { max-width: min(48rem, 100% - 15rem - 56px); }
+  .install__panel:lang(ka) { max-width: min(48rem, 100% - 17.5rem - 56px); }
+}
+
+/* This page as Markdown, for agents: a link to the .md twin and a button that copies it. */
+.link-btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  min-height: 44px; padding: 0;
+  border: 0; background: none;
+  color: var(--saperavi);
+  font: inherit;
+  text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.2em;
+  cursor: pointer;
+}
+.link-btn:hover { text-decoration-thickness: 2px; }
+.link-btn.is-copied { text-decoration: none; }
+.link-btn.is-copied svg { color: var(--saperavi); }
+@media (max-width: 599px) {
+  .install__links { column-gap: 24px; }
+}
+
+/* A project page without install tabs: the links stand under the header instead of on its edge. */
+.install--links { margin-top: 0; padding-top: 14px; }

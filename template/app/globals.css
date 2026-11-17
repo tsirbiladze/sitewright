@@ -1,0 +1,8 @@
+/* The site's styles: the Saperavi design (a field of one deep colour, the key element of each page
+   standing on its edge). One file per area; order matters. */
+@import "./styles/base.css";
+@import "./styles/chrome.css";
+@import "./styles/home.css";
+@import "./styles/install.css";
+@import "./styles/article.css";
+@import "./styles/pages.css";

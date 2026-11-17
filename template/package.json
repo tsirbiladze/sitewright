@@ -1,0 +1,43 @@
+{
+  "name": "site",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@12.15.0",
+  "engines": {
+    "node": ">=24 <25"
+  },
+  "scripts": {
+    "fetch-skills": "node --use-env-proxy scripts/fetch-skills.mjs",
+    "dev": "node --use-env-proxy scripts/fetch-skills.mjs && next dev",
+    "build": "node --use-env-proxy scripts/fetch-skills.mjs && next build",
+    "start": "next start",
+    "check": "node --import ./tests/register.mjs scripts/check-content.ts",
+    "typecheck": "next typegen && tsc --noEmit",
+    "test": "node --import ./tests/register.mjs --test 'tests/*.test.ts'",
+    "shapes": "node scripts/shapes.mjs",
+    "preview": "node scripts/preview.mjs",
+    "go-live": "node --use-env-proxy scripts/go-live.mjs",
+    "domain": "node --use-env-proxy scripts/domain.mjs",
+    "shot": "node scripts/shot.mjs",
+    "axe": "node scripts/axe.mjs",
+    "qa": "node scripts/qa.mjs",
+    "fit": "node --import ./tests/register.mjs scripts/fit.mjs",
+    "lighthouse": "node scripts/lighthouse.mjs"
+  },
+  "dependencies": {
+    "marked": "18.1.2",
+    "next": "16.4.3",
+    "react": "19.3.1",
+    "react-dom": "19.3.1"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "4.14.0",
+    "@types/node": "24.19.2",
+    "@types/react": "19.3.0",
+    "@types/react-dom": "19.3.0",
+    "lighthouse": "13.6.0",
+    "playwright-core": "1.64.1",
+    "sharp": "0.35.5",
+    "typescript": "6.0.3"
+  }
+}
