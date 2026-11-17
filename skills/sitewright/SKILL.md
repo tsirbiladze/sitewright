@@ -3,7 +3,7 @@ name: sitewright
 description: Build a person their own site from a few answers and take it live on Vercel under their domain. The site has a home, projects, a work page, a CV and a blog, in one or two languages. Use when someone asks for a personal site, a portfolio or a CV site of their own.
 license: MIT
 metadata:
-  version: "1.0.0"
+  version: "1.0.1"
   homepage: "https://tsirbiladze.com/skills/sitewright"
 ---
 

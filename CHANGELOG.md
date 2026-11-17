@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.0.1 — 2026-11-17
+
+- The template runs Next.js 16.4.5, which fixes the advisory GHSA-mfr8-8qww-v76h in 16.4.3. A build started by an agent in a new site no longer stops once on Next's upgrade notice. 1.0.0 could not carry the fix: the fixed version was not yet 14 days old, and the template installs nothing younger.
+
 ## 1.0.0 — 2026-11-17
 
 First release.

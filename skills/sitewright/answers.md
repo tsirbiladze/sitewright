@@ -160,7 +160,7 @@ project with no address and no summary:
 What the scaffold prints for it (`--out nino-site`; the folder, the placeholders and the git line vary):
 
 ```text
-Made /home/you/nino-site from the sitewright template 1.0.0 (https://github.com/tsirbiladze/sitewright at v1.0.0).
+Made /home/you/nino-site from the sitewright template 1.0.1 (https://github.com/tsirbiladze/sitewright at v1.0.1).
 Languages: ka (main, at /), en (at /en/).
 Sections: home, projects, about, blog; off: work.
 Domain: nino-nimushadze.vercel.app, provisional (no domain yet): name the Vercel project nino-nimushadze, and after the first deployment write the address Vercel gives it in content/site.json "domain". Package: nino-nimushadze.
