@@ -6,7 +6,7 @@
 // Both are shown the same way: a row in the lists, and a page with an optional install box.
 import { readFileSync, existsSync } from 'node:fs';
 import { join } from 'node:path';
-import { Marked, type Tokens } from 'marked';
+import { Marked, type RendererObject, type Tokens } from 'marked';
 import { ContentError, fill, getContent, href, L, liveHref, type InstallTabFile, type Lang, type Picture, type ProjectFile } from './content';
 import { fmNested, fmString, frontmatter, type Frontmatter } from './frontmatter';
 import { isPlaceholder } from './schema';
@@ -139,6 +139,53 @@ export const smartenText = (token: Tokens.Generic) => {
   }
 };
 
+// What a page takes from Markdown. The HTML rendered here goes into the page as it is, on the owner's
+// domain, and not all of the Markdown is the owner's: an agent skill's page text and changelog are
+// fetched from its own repository (scripts/fetch-skills.mjs), at a ref that may be a branch. So no
+// Markdown brings markup of its own, whoever wrote it (nothing in the owner's own content needs any):
+// raw HTML is shown as the text it is, and a link or an image goes only where safeUrl lets it. The
+// blog (lib/blog.ts) is rendered by the same rule.
+
+/** Text for an element or a double-quoted attribute, escaped as marked escapes its own: an entity the author wrote stays one. */
+export const escapeHtml = (s: string) =>
+  s.replace(/&(?!(?:#\d{1,7}|#x[\da-f]{1,6}|\w+);)/gi, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+
+/**
+ * Whether a link or an image may go to an address: http(s), an address without a scheme (a path, a
+ * query or an anchor of the site), and mailto for a link. Nothing else: not `javascript:`, not `data:`.
+ */
+export function safeUrl(url: string, { mailto = false } = {}): boolean {
+  // A browser drops the spaces around an address, and the tabs and line breaks inside it, before it
+  // reads the scheme.
+  const u = url.replace(/[\u0000-\u0020]/g, '');
+  if (/^https?:/i.test(u) || (mailto && /^mailto:/i.test(u))) return true;
+  // No scheme: before the first "/", "?" or "#" there is no colon, and no "&" either, which could
+  // begin one as a character reference the browser decodes (`javascript&colon;`).
+  return !/^[^/?#]*[:&]/.test(u);
+}
+
+/** What every Markdown render on the site starts from (the page text below, a changelog, a blog post). */
+export const safeRenderer: RendererObject = {
+  // A tag is shown as the text it is. A comment is not part of the text, and is left out.
+  html({ text, block }) {
+    if (/^<!--[\s\S]*-->\s*$/.test(text)) return '';
+    return block ? `<p>${escapeHtml(text.trim())}</p>\n` : escapeHtml(text);
+  },
+  // marked passes the text between <pre>, <code>, <kbd> or <script> tags through as written
+  // ("escaped"). With the tags shown as text, it is text like any other.
+  text(token) {
+    return 'escaped' in token && token.escaped ? escapeHtml(token.text) : false;
+  },
+  // marked's own link and image, for an address that may be gone to. A link to any other keeps its
+  // words and loses the link; an image from any other is left out.
+  link({ href, tokens }) {
+    return safeUrl(href, { mailto: true }) ? false : this.parser.parseInline(tokens);
+  },
+  image({ href }) {
+    return safeUrl(href) ? false : '';
+  },
+};
+
 const zoomIcon =
   '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M14 4h6v6M10 20H4v-6M20 4l-7 7M4 20l7-7" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>';
 
@@ -151,6 +198,7 @@ function render(markdown: string, lang: Lang, images: Record<string, FetchedPict
     gfm: true,
     ...(lang === 'en' ? { walkTokens: smartenText } : {}),
     renderer: {
+      ...safeRenderer,
       heading({ tokens, depth }: Tokens.Heading) {
         const inner = this.parser.parseInline(tokens);
         const text = decode(inner.replace(/<[^>]+>/g, ''));
@@ -166,18 +214,20 @@ function render(markdown: string, lang: Lang, images: Record<string, FetchedPict
       image({ href, text }: Tokens.Image) {
         const img = images[href];
         const src = img?.src ?? href;
+        if (!safeUrl(src)) return '';
         const size = img?.width ? ` width="${img.width}" height="${img.height}"` : '';
-        const tag = `<img src="${src}" alt="${text.replace(/"/g, '&quot;')}"${size} loading="lazy" decoding="async">`;
+        const tag = `<img src="${escapeHtml(src)}" alt="${escapeHtml(text)}"${size} loading="lazy" decoding="async">`;
         // The page shows the lossless WebP twin; the original stays the fallback and the full-size link.
-        return img?.webp ? `<picture><source srcset="${img.webp}" type="image/webp">${tag}</picture>` : tag;
+        return img?.webp ? `<picture><source srcset="${escapeHtml(img.webp)}" type="image/webp">${tag}</picture>` : tag;
       },
       link({ href, tokens, text }: Tokens.Link) {
         const pinned = pin(href);
         // A bare URL shows its own address, so it shows the pinned one too.
-        const inner = text === href && pinned !== href ? pinned : this.parser.parseInline(tokens);
-        // A link into a section that is off has nowhere to go: its words stay, the link goes.
-        const live = liveHref(pinned);
-        return live === null ? inner : `<a href="${live}">${inner}</a>`;
+        const inner = text === href && pinned !== href ? escapeHtml(pinned) : this.parser.parseInline(tokens);
+        // A link into a section that is off has nowhere to go: its words stay, the link goes. So it is
+        // with a link to an address safeUrl refuses.
+        const live = safeUrl(pinned, { mailto: true }) ? liveHref(pinned) : null;
+        return live === null ? inner : `<a href="${escapeHtml(live)}">${inner}</a>`;
       },
     },
   });
@@ -215,7 +265,7 @@ const breakUrls = (html: string) =>
     open + url.replace(/(?<=[^/]\/)(?=[^/])/g, '<wbr>') + close);
 
 function readChangelog(src: string, lang: Lang = 'en'): ChangelogEntry[] {
-  const marked = new Marked({ gfm: true, ...(lang === 'en' ? { walkTokens: smartenText } : {}) });
+  const marked = new Marked({ gfm: true, ...(lang === 'en' ? { walkTokens: smartenText } : {}), renderer: safeRenderer });
   return src
     .split(/^## /m)
     .slice(1)

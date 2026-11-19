@@ -6,7 +6,7 @@ import { join } from 'node:path';
 import { Marked } from 'marked';
 import { frontmatter } from './frontmatter';
 import { getContent, has, href, L, liveHref, type Lang } from './content';
-import { smartenText } from './projects';
+import { escapeHtml, safeRenderer, safeUrl, smartenText } from './projects';
 
 export interface Post { lang: Lang; slug: string; title: string; date: string; summary: string; html: string; minutes: number; draft: boolean }
 
@@ -39,12 +39,15 @@ function readPosts(lang: Lang): Post[] {
   const marked = new Marked({
     gfm: true,
     ...(lang === 'en' ? { walkTokens: smartenText } : {}),
+    // A post brings no markup of its own, like every Markdown the site renders (lib/projects.ts).
     renderer: {
+      ...safeRenderer,
       link({ href: target, tokens }) {
         const inner = this.parser.parseInline(tokens);
-        // A link into a section that is off keeps its words and loses the link.
-        const live = liveHref(target);
-        return live === null ? inner : `<a href="${live}">${inner}</a>`;
+        // A link into a section that is off keeps its words and loses the link. So does a link to an
+        // address safeUrl refuses.
+        const live = safeUrl(target, { mailto: true }) ? liveHref(target) : null;
+        return live === null ? inner : `<a href="${escapeHtml(live)}">${inner}</a>`;
       },
     },
   });
