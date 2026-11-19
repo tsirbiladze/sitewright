@@ -1,5 +1,5 @@
 // The slow run, kept out of the default one: a scaffolded site installs, passes `pnpm check`,
-// `pnpm typecheck`, builds, and passes its own unit tests. Run it with `pnpm test:e2e`
+// `pnpm typecheck`, builds, and passes its own unit tests. Run it with `npm run test:e2e`
 // (SITEWRIGHT_E2E=1), outside any command sandbox: pnpm installs from this machine's store, with the
 // template's minimumReleaseAge and no exclusions. An agent skill's page text comes from a local stand-in
 // for raw.githubusercontent.com (SKILLS_RAW_BASE) on a port from 4340 to 4349, serving the template's

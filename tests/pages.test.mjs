@@ -60,10 +60,19 @@ test('the README and the pages give the same test counts, the same day of the re
   assert.match(readme, /npx skills@latest add tsirbiladze\/sitewright/);
 });
 
-test('the changelog’s newest entry is the skill’s version, dated', () => {
+test('the changelog’s newest entry is the skill’s version, dated, and package.json says what SKILL.md and the README say', () => {
   const [, newest, date] = read('CHANGELOG.md').match(/^## (\S+) — (\d{4}-\d{2}-\d{2})$/m);
   assert.equal(newest, version);
   assert.ok(!Number.isNaN(Date.parse(date)));
+  // package.json repeats the version, so a release bumps it together with SKILL.md's.
+  const pkg = JSON.parse(read('package.json'));
+  const skill = (name) => read('skills/sitewright/SKILL.md').match(new RegExp(`^\\s*${name}:\\s*"?([^"\\n]*)"?\\s*$`, 'm'))[1];
+  assert.equal(pkg.version, version);
+  assert.equal(pkg.license, skill('license'));
+  assert.equal(pkg.homepage, skill('homepage'));
+  assert.ok(readme.startsWith(`# sitewright\n\n${pkg.description} `), 'the description is the README’s first sentence');
+  assert.equal(pkg.repository.url, 'git+https://github.com/tsirbiladze/sitewright.git');
+  assert.equal(pkg.private, true, 'the skill is installed from the repository, not from npm');
 });
 
 test('the palettes the texts name are the template’s', () => {
