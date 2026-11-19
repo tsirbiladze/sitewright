@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+- Markdown no longer brings markup of its own into a page. Raw HTML in a post, a project's text, or an agent skill's fetched text and changelog is shown as text, and a link or an image goes only to an `http(s)` address, an address of the site or, for a link, `mailto:`. Before, the text a site fetches from a skill's repository could put a script on the owner's site.
+
 ## 1.0.1 — 2026-11-17
 
 - The template runs Next.js 16.4.5, which fixes the advisory GHSA-mfr8-8qww-v76h in 16.4.3. A build started by an agent in a new site no longer stops once on Next's upgrade notice. 1.0.0 could not carry the fix: the fixed version was not yet 14 days old, and the template installs nothing younger.
