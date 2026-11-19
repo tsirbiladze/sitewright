@@ -97,4 +97,4 @@ Rules of the skill: no secrets in files, commits or messages; nothing public wit
 
 ## Release
 
-The skill is published in its own public repository, `tsirbiladze/sitewright`, and as its own skill page on tsirbiladze.com. A release is the owner's step: no agent working here publishes anything on its own. The skill's version is `metadata.version` in `skills/sitewright/SKILL.md`; the tag `v<version>` is what the scaffold fetches the template from, so the two are released together, with a `CHANGELOG.md` entry.
+The skill is published in its own public repository, `tsirbiladze/sitewright`, and as its own skill page on tsirbiladze.com. A release is the owner's step: no agent working here publishes anything on its own. The skill's version is `metadata.version` in `skills/sitewright/SKILL.md`; the tag `v<version>` is what the scaffold fetches the template from, so the two are released together, with a `CHANGELOG.md` entry. The root `package.json` repeats the version (`tests/pages.test.mjs` holds it to `SKILL.md` and the changelog).

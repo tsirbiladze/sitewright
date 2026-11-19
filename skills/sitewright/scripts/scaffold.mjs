@@ -3,8 +3,8 @@
 //
 //   node scaffold.mjs --answers <answers.json> --out <new-folder> [--template <folder>] [--no-git]
 //
-// 1. Gets the template at this skill's version (`metadata.version` in ../SKILL.md, the one place a
-//    release bumps): the folder template/ of https://github.com/tsirbiladze/sitewright at the tag
+// 1. Gets the template at this skill's version (`metadata.version` in ../SKILL.md, the one place the
+//    skill reads it from): the folder template/ of https://github.com/tsirbiladze/sitewright at the tag
 //    v<version>, cloned with git. `--template <folder>` or SITEWRIGHT_TEMPLATE takes a local template
 //    folder instead (tests, offline); SITEWRIGHT_REPO replaces the GitHub address (tests use a local
 //    repository standing in for it).
