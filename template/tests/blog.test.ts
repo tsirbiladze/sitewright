@@ -180,7 +180,7 @@ test('the feed escapes what XML must, and gives links and images their full addr
   assert.match(item, /href="https:\/\/example\.com\/ka\/work"/);
   assert.match(item, /href="https:\/\/example\.com\/x"/);
   assert.match(item, /src="https:\/\/example\.com\/blog\/a\.png"/);
-  assert.match(item, /end \]\]\]\]><!\[CDATA\[> here/, 'raw HTML with ]]> cannot end the CDATA early');
+  assert.match(item, /&lt;p&gt;end \]\]&gt; here&lt;\/p&gt;/, 'raw HTML is shown as text, so its ]]> cannot end the CDATA early');
 });
 
 test('the feed is valid with no posts: the channel alone, no date', () => {

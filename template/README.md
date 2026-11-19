@@ -69,6 +69,11 @@ lists them all.
 - **Sections are switches.** With a section off its pages, navigation entry, sitemap entries, share
   images, feed and lines in the agent formats are gone, and a link to it in a text keeps its words and
   loses the link. Its files may stay in `content/`.
+- **Markdown brings no markup of its own.** In a post, a project's text, and an agent skill's fetched
+  text and changelog, raw HTML is shown as the text it is (a comment is left out). A link goes to an
+  `http(s)` address, an address of the site or `mailto:`, and an image comes from an `http(s)` address
+  or the site: a link to anything else keeps its words and loses the link, and an image from anything
+  else is left out.
 - **Every problem fails the build and the tests with one line** naming the file and the field:
   `content/ka/work.json: "price" is missing (the price with its currency, …)`. A misspelt field names
   the field it was probably meant to be. A Latin-script language with Georgian letters, or any other
