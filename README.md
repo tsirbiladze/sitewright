@@ -62,7 +62,7 @@ Vercel only (its free plan is for personal, non-commercial use). One person, not
 
 ## How it is tested
 
-- The template: 253 unit tests, a build in every shape a site can take (one or two languages, each section off), and a QA script in a real browser: accessibility, overflow from 320 to 1280 px, the keyboard path, the name's fit for 14 names at 8 widths.
+- The template: 263 unit tests, a build in every shape a site can take (one or two languages, each section off), and a QA script in a real browser: accessibility, overflow from 320 to 1280 px, the keyboard path, the name's fit for 14 names at 8 widths.
 - The scaffold and the skill's pages: 107 tests, and a slower run that scaffolds three sites and installs, builds and tests each.
 - Two trials by agents that had never seen the skill, in Claude Code and in Codex, against stand-ins for GitHub and Vercel. What they found is fixed in this release.
 - One real run on 2026-11-17: a private GitHub repository, a Vercel project, the first go-live, a preview and the domain's DNS records, all deleted afterwards.
