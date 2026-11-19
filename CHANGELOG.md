@@ -3,6 +3,7 @@
 ## Unreleased
 
 - Markdown no longer brings markup of its own into a page. Raw HTML in a post, a project's text, or an agent skill's fetched text and changelog is shown as text, and a link or an image goes only to an `http(s)` address, an address of the site or, for a link, `mailto:`. Before, the text a site fetches from a skill's repository could put a script on the owner's site.
+- A new site no longer carries `tests/no-source.test.ts`. That test kept the owner of tsirbiladze.com out of the template, and to do so it held his name, his email address and his prices, written backwards; the scaffold copies the template's tests into every site, so each site got them too. The check now lives in this repository's own tests, which hold no email address and no price. Sites made with 1.0.0 or 1.0.1 still have the file and can delete it.
 
 ## 1.0.1 — 2026-11-17
 
